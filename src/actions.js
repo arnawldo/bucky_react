@@ -29,7 +29,6 @@ export const registerUser = (username, password) => dispatch =>
                     password: password
                 })
             }
-            throw new Error("Bad response from server");
         }))
         .then(dispatch)
         .catch((error) => {

@@ -42,46 +42,6 @@ describe("User Reducer", () => {
 
 });
 
-describe("IsRegistered Reducer", () => {
-
-    it("REGISTER_USER dispatched successfully", () => {
-        const state = false;
-        const action = {
-            type: "REGISTER_USER"
-        };
-        const result = isRegistered(state, action);
-        expect(result)
-            .toEqual(true)
-    });
-
-    it("UNREGISTER_USER dispatched successfully", () => {
-        const state = false;
-        let action = {
-            type: "REGISTER_USER"
-        };
-        let result = isRegistered(state, action);
-        expect(result)
-            .toEqual(true);
-
-        action = {
-            type: "UNREGISTER_USER"
-        };
-        result = isRegistered(result, action);
-        expect(result)
-            .toEqual(false);
-    });
-
-    it("Unknown action dispatched successfully", () => {
-        const state = false;
-        const action = {
-            type: "WRONG"
-        };
-        const result = isRegistered(state, action);
-        expect(result)
-            .toEqual(false)
-    })
-});
-
 describe("Bucketlist Reducer", () => {
 
     it("ADD_BUCKETLIST dispatched successfully", () => {

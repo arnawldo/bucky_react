@@ -164,19 +164,6 @@ export const user = (state = {}, action) => {
     }
 };
 
-// Is-Registered Reducer
-export const isRegistered = (state = false, action) => {
-    switch (action.type) {
-
-        case C.REGISTER_USER:
-            return true;
-        case C.UNREGISTER_USER:
-            return false;
-        default:
-            return state
-    }
-};
-
 // Searched BucketLists Reducer
 export const searchedBucketLists = (state = [], action) => {
     switch (action.type) {

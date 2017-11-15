@@ -85,3 +85,12 @@ export const loginUser = (username, password) => dispatch =>
                 });
             }
         });
+
+
+/**
+ * Clear all messages in store
+ */
+export const clearNotifications = () =>
+    ({
+        type: C.CLEAR_NOTIFICATIONS
+    });

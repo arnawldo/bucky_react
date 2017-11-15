@@ -14,11 +14,12 @@ Enzyme.configure({adapter: new Adapter()});
 
 describe("<App />", () => {
 
+    // <App /> can render login page
     const loggedOutState = {
         user: {},
         bucketlists: [],
         searchedBucketLists: [],
-        notifications: []
+        notifications: ["a notification"]
     };
 
     const store = createMockStore(loggedOutState);
@@ -35,10 +36,13 @@ describe("<App />", () => {
     it("renders login page", () => {
         expect(wrapperLoginRoute.find(".page-header").length).toEqual(1);
         expect(wrapperLoginRoute.find("form").length).toEqual(1);
-        expect(wrapperLoginRoute.find("button").text()).toBe("LOGIN");
+        expect(wrapperLoginRoute.find("form>button").text()).toBe("LOGIN");
         expect(wrapperLoginRoute.find("p").text()).toBe("New User? Click here to register");
+        expect(wrapperLoginRoute.find(".alert").length).toEqual(1);
+
     });
 
+    // <App /> can render register page
     const wrapperRegisterRoute = mount(
         <MemoryRouter initialEntries={["/register"]} initialIndex={0}>
             <Provider store={store}>
@@ -50,8 +54,9 @@ describe("<App />", () => {
     it("renders register page", () => {
         expect(wrapperRegisterRoute.find(".page-header").length).toEqual(1);
         expect(wrapperRegisterRoute.find("form").length).toEqual(1);
-        expect(wrapperRegisterRoute.find("button").text()).toBe("REGISTER");
+        expect(wrapperRegisterRoute.find("form>button").text()).toBe("REGISTER");
         expect(wrapperRegisterRoute.find("p").text()).toBe("Already a User? Click here to login");
+        expect(wrapperRegisterRoute.find(".alert").length).toEqual(1);
     });
 
 });

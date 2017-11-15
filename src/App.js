@@ -1,5 +1,5 @@
 import React from 'react';
-import {LoginPage, RegisterPage} from "./containers";
+import {LoginPage, Notifications, RegisterPage} from "./containers";
 import {Route, Switch} from "react-router-dom";
 
 
@@ -13,12 +13,14 @@ const App = () =>
                         <Route exact path="/login"
                                component={() => (
                                    <div>
+                                       <Notifications />
                                        <LoginPage />
                                    </div>
                                )} />
                         <Route exact path="/register"
                                component={() => (
                                    <div>
+                                       <Notifications />
                                        <RegisterPage />
                                    </div>
                                )} />

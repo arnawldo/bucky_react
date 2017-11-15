@@ -1,11 +1,12 @@
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {loginUser, registerUser} from "./actions";
+import {clearNotifications, loginUser, registerUser} from "./actions";
 import ShowRegister from "./components/ui/ShowRegister";
 import ShowLogin from "./components/ui/ShowLogin";
+import ShowNotifications from "./components/ui/ShowNotifications";
 
 
-export const LoginPage =withRouter(connect(
+export const LoginPage = withRouter(connect(
     (state, props) =>
         ({
             user: {...state.user},
@@ -20,7 +21,7 @@ export const LoginPage =withRouter(connect(
 )(ShowLogin));
 
 
-export const RegisterPage =withRouter(connect(
+export const RegisterPage = withRouter(connect(
     (state, props) =>
         ({
             user: {...state.user},
@@ -33,3 +34,14 @@ export const RegisterPage =withRouter(connect(
             }
         })
 )(ShowRegister));
+
+export const Notifications = withRouter(connect(
+    state => ({
+        notifications: [...state.notifications]
+    }),
+    dispatch => ({
+        onClearNotifications() {
+            dispatch(clearNotifications())
+        }
+    })
+)(ShowNotifications));

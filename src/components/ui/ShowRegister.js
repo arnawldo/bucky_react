@@ -59,8 +59,7 @@ class ShowRegister extends Component {
 ShowRegister.propTypes = {
     onRegister: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    isRegistered: PropTypes.bool.isRequired
+    history: PropTypes.object.isRequired
 };
 
 export default ShowRegister

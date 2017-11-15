@@ -33,7 +33,7 @@ const storeFactory = (initialState = {}) =>
         (localStorage['redux-store']) ?
             JSON.parse(localStorage['redux-store']) :
             initialState,
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()|| compose
+        (window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() )|| compose
     );
 
 export default storeFactory

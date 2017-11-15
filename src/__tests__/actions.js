@@ -2,11 +2,13 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import {registerUser} from "../actions";
+import {loginUser, registerUser} from "../actions";
 import C from "../constants";
 
 // API endpoints
 const USERENDPOINT = "/api/v1.0/auth/users/";
+const BUCKETLISTENDPOINT = "/api/v1.0/bucketlists/";
+
 
 // for mocking axios calls
 const mockAxios = new MockAdapter(axios);
@@ -21,7 +23,7 @@ describe('Async actions', () => {
         mockAxios.reset(); // reset mocking behaviour
     });
 
-    it('creates ADD_USER action when registration is successful', () => {
+    it('registerUser creates ADD_USER action when registration is successful', () => {
 
         mockAxios.onPost(USERENDPOINT,
             {
@@ -52,12 +54,12 @@ describe('Async actions', () => {
         return store
             .dispatch(registerUser("user", "test"))
             .then(() => {
-                expect(store.getActions()).toEqual(expectedActions)
+                expect(store.getActions()).toEqual(expectedActions);
             });
 
     });
 
-    it('creates ADD_NOTIFICATION action when username already exists', () => {
+    it('registerUser creates ADD_NOTIFICATION action when username already exists', () => {
 
         mockAxios.onPost(USERENDPOINT,
             {
@@ -88,8 +90,43 @@ describe('Async actions', () => {
         return store
             .dispatch(registerUser("user", "test"))
             .then(() => {
-                expect(store.getActions()).toEqual(expectedActions)
+                expect(store.getActions()).toEqual(expectedActions);
             });
 
     });
+
+    it('addUser creates ADD_USER action when login is successful', () => {
+
+        mockAxios.onGet(BUCKETLISTENDPOINT,
+            {
+                data: {
+                    username: 'user',
+                    password: 'test'
+                }
+            })
+            .reply(200);
+
+        const expectedActions = [
+            {
+                type: C.ADD_USER,
+                username: "user",
+                password: "test"
+            }
+        ];
+
+        const state = {
+            user: {},
+            bucketlists: [],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store
+            .dispatch(loginUser("user", "test"))
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    })
 });

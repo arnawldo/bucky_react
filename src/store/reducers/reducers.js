@@ -6,12 +6,23 @@ export const task = (state = {}, action) => {
         case C.ADD_TASK:
             return {
                 id: action.taskId,
-                description: action.description
+                description: action.description,
+                editMode: false
             };
         case C.EDIT_TASK:
             return {
                 ...state,
                 description: action.newDescription
+            };
+        case C.TASK_ENTER_EDIT_MODE:
+            return {
+                ...state,
+                editMode: true
+            };
+        case C.TASK_EXIT_EDIT_MODE:
+            return {
+                ...state,
+                editMode: false
             };
         default:
             return state
@@ -30,7 +41,8 @@ export const tasks = (state = [], action) => {
             const receivedTasks = action.tasks.map(
                 t => ({
                     id: t.id,
-                    description: t.description
+                    description: t.description,
+                    editMode: false
                 }));
             return [
                 ...receivedTasks
@@ -42,6 +54,14 @@ export const tasks = (state = [], action) => {
         case C.DELETE_TASK :
             return state.filter(
                 t => t.id !== action.taskId
+            );
+        case C.TASK_ENTER_EDIT_MODE:
+            return state.map(
+                t => (t.id === action.task_id) ? task(t, action) : t
+            );
+        case C.TASK_EXIT_EDIT_MODE:
+            return state.map(
+                t => (t.id === action.task_id) ? task(t, action) : t
             );
         default:
             return state
@@ -75,12 +95,33 @@ export const bucketlist = (state = {}, action) => {
             return {
                 id: action.bucketId,
                 name: action.name,
-                tasks: []
+                tasks: [],
+                editMode: false
             };
         case C.EDIT_BUCKETIST:
             return {
                 ...state,
                 name: action.newName
+            };
+        case C.BUCKET_ENTER_EDIT_MODE:
+            return {
+                ...state,
+                editMode: true
+            };
+        case C.BUCKET_EXIT_EDIT_MODE:
+            return {
+                ...state,
+                editMode: false
+            };
+        case C.TASK_ENTER_EDIT_MODE:
+            return {
+                ...state,
+                tasks: tasks(state.tasks, action)
+            };
+        case C.TASK_EXIT_EDIT_MODE:
+            return {
+                ...state,
+                tasks: tasks(state.tasks, action)
             };
         default:
             return state
@@ -120,7 +161,8 @@ export const bucketlists = (state = [], action) => {
                 b => ({
                     id: b.id,
                     name: b.name,
-                    tasks: b.tasks
+                    tasks: tasks([], {type: C.SET_TASKS, tasks: b.tasks}),
+                    editMode: false
                 }));
             return [
                 ...receivedBuckets
@@ -142,6 +184,22 @@ export const bucketlists = (state = [], action) => {
         case C.DELETE_BUCKETLIST:
             return state.filter(
                 b => b.id !== action.bucketId
+            );
+        case C.BUCKET_ENTER_EDIT_MODE:
+            return state.map(
+                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
+            );
+        case C.BUCKET_EXIT_EDIT_MODE:
+            return state.map(
+                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
+            );
+        case C.TASK_ENTER_EDIT_MODE:
+            return state.map(
+                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
+            );
+        case C.TASK_EXIT_EDIT_MODE:
+            return state.map(
+                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
             );
         default:
             return state

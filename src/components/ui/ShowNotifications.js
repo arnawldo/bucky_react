@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 
 class ShowNotifications extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
-
     componentWillUnmount() {
         const {onClearNotifications} = this.props;
         onClearNotifications();

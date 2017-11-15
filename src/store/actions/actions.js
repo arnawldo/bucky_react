@@ -1,5 +1,5 @@
 import axios from "axios";
-import C from "./constants";
+import C from "../../constants";
 
 // API endpoints
 const USERENDPOINT = "/api/v1.0/auth/users/";

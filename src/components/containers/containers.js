@@ -1,9 +1,9 @@
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {clearNotifications, loginUser, registerUser} from "./actions";
-import ShowRegister from "./components/ui/ShowRegister";
-import ShowLogin from "./components/ui/ShowLogin";
-import ShowNotifications from "./components/ui/ShowNotifications";
+import {clearNotifications, loginUser, registerUser} from "../../store/actions/actions";
+import ShowRegister from "../ui/ShowRegister";
+import ShowLogin from "../ui/ShowLogin";
+import ShowNotifications from "../ui/ShowNotifications";
 
 
 export const LoginPage = withRouter(connect(

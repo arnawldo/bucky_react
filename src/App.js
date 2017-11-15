@@ -1,5 +1,5 @@
 import React from 'react';
-import {LoginPage, Notifications, RegisterPage} from "./containers";
+import {LoginPage, Notifications, RegisterPage} from "./components/containers/containers";
 import {Route, Switch} from "react-router-dom";
 
 

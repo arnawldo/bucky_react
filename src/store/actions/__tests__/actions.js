@@ -3,7 +3,7 @@ import MockAdapter from "axios-mock-adapter";
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import {loginUser, registerUser} from "../actions";
-import C from "../constants";
+import C from "../../../constants";
 
 // API endpoints
 const USERENDPOINT = "/api/v1.0/auth/users/";

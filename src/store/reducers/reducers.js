@@ -1,4 +1,4 @@
-import C from "../constants"
+import C from "../../constants"
 
 // Single Task Reducer
 export const task = (state = {}, action) => {

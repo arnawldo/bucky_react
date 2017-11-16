@@ -391,6 +391,68 @@ describe("Bucketlists Reducer", () => {
             ])
     });
 
+    it("BUCKET_ENTER_EDIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [], editMode: false}
+        ];
+        const action = {
+            type: "BUCKET_ENTER_EDIT_MODE",
+            bucket_id: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [], editMode: true}
+            ])
+    });
+
+    it("BUCKET_ENTER_EXIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [], editMode: true}
+        ];
+        const action = {
+            type: "BUCKET_EXIT_EDIT_MODE",
+            bucket_id: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [], editMode: false}
+            ])
+    });
+
+    it("TASK_ENTER_EDIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: false}], editMode: false}
+        ];
+        const action = {
+            type: "TASK_ENTER_EDIT_MODE",
+            bucket_id: 1,
+            task_id: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: true}], editMode: false}
+            ])
+    });
+
+    it("TASK_ENTER_EXIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: true}], editMode: false}
+        ];
+        const action = {
+            type: "TASK_EXIT_EDIT_MODE",
+            bucket_id: 1,
+            task_id: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: false}], editMode: false}
+            ])
+    });
+
     it("Unknown action does not change state", () => {
         const state = [];
         const action = {

@@ -57,11 +57,11 @@ export const tasks = (state = [], action) => {
             );
         case C.TASK_ENTER_EDIT_MODE:
             return state.map(
-                t => (t.id === action.task_id) ? task(t, action) : t
+                t => (t.id === action.taskId) ? task(t, action) : t
             );
         case C.TASK_EXIT_EDIT_MODE:
             return state.map(
-                t => (t.id === action.task_id) ? task(t, action) : t
+                t => (t.id === action.taskId) ? task(t, action) : t
             );
         default:
             return state
@@ -187,19 +187,19 @@ export const bucketlists = (state = [], action) => {
             );
         case C.BUCKET_ENTER_EDIT_MODE:
             return state.map(
-                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
+                b => (b.id === action.bucketId) ? bucketlist(b, action) : b
             );
         case C.BUCKET_EXIT_EDIT_MODE:
             return state.map(
-                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
+                b => (b.id === action.bucketId) ? bucketlist(b, action) : b
             );
         case C.TASK_ENTER_EDIT_MODE:
             return state.map(
-                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
+                b => (b.id === action.bucketId) ? bucketlist(b, action) : b
             );
         case C.TASK_EXIT_EDIT_MODE:
             return state.map(
-                b => (b.id === action.bucket_id) ? bucketlist(b, action) : b
+                b => (b.id === action.bucketId) ? bucketlist(b, action) : b
             );
         default:
             return state

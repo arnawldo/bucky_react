@@ -141,7 +141,7 @@ describe("Bucketlist Reducer", () => {
         const state = {};
         const action = {
             type: "WRONG",
-            bucket_id: 1,
+            bucketId: 1,
             name: "bucket 1"
         };
         const result = bucketlist(state, action);
@@ -168,7 +168,7 @@ describe("Task Reducer", () => {
         const state = {};
         const action = {
             type: "WRONG",
-            task_id: 1,
+            taskId: 1,
             description: "task 1"
         };
         const result = task(state, action);
@@ -397,7 +397,7 @@ describe("Bucketlists Reducer", () => {
         ];
         const action = {
             type: "BUCKET_ENTER_EDIT_MODE",
-            bucket_id: 1
+            bucketId: 1
         };
         const result = bucketlists(state, action);
         expect(result)
@@ -412,7 +412,7 @@ describe("Bucketlists Reducer", () => {
         ];
         const action = {
             type: "BUCKET_EXIT_EDIT_MODE",
-            bucket_id: 1
+            bucketId: 1
         };
         const result = bucketlists(state, action);
         expect(result)
@@ -427,8 +427,8 @@ describe("Bucketlists Reducer", () => {
         ];
         const action = {
             type: "TASK_ENTER_EDIT_MODE",
-            bucket_id: 1,
-            task_id: 1
+            bucketId: 1,
+            taskId: 1
         };
         const result = bucketlists(state, action);
         expect(result)
@@ -443,8 +443,8 @@ describe("Bucketlists Reducer", () => {
         ];
         const action = {
             type: "TASK_EXIT_EDIT_MODE",
-            bucket_id: 1,
-            task_id: 1
+            bucketId: 1,
+            taskId: 1
         };
         const result = bucketlists(state, action);
         expect(result)
@@ -505,7 +505,7 @@ describe("Searched Bucketlists Reducer", () => {
         const state = {};
         const action = {
             type: "WRONG",
-            bucket_id: 1,
+            bucketId: 1,
             name: "bucket 1"
         };
         const result = searchedBucketLists(state, action);

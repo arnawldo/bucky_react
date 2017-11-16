@@ -8,7 +8,7 @@ Enzyme.configure({adapter: new Adapter()});
 
 function setup() {
     const props = {
-        id: 1,
+        bucketId: 1,
         onEditBucket: sinon.spy(),
         onBucketExitEditMode: sinon.spy(),
         user: {username: "tester", password: "test"}

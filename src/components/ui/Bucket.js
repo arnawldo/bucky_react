@@ -10,7 +10,7 @@ const Bucket = ({
 
 
     if (editMode) {
-        return <EditBucketForm id={id} name={name} onEditBucket={onEditBucket} user={user}
+        return <EditBucketForm bucketId={id} name={name} onEditBucket={onEditBucket} user={user}
                                onBucketExitEditMode={onBucketExitEditMode}/>;
     } else {
         return <li className="bucket">

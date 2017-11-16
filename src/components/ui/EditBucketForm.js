@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-const EditBucketForm = ({id, name, user, onEditBucket, onBucketExitEditMode}) => {
+const EditBucketForm = ({bucketId, name, user, onEditBucket, onBucketExitEditMode}) => {
 
     let _newName;
 
     const submit = e => {
         e.preventDefault();
-        onEditBucket(id, _newName.value, user.username, user.password);
+        onEditBucket(bucketId, _newName.value, user.username, user.password);
     };
 
 
@@ -26,7 +26,7 @@ const EditBucketForm = ({id, name, user, onEditBucket, onBucketExitEditMode}) =>
 };
 
 EditBucketForm.propTypes = {
-    id: PropTypes.number.isRequired,
+    bucketId: PropTypes.number.isRequired,
     onEditBucket: PropTypes.func.isRequired,
     onBucketExitEditMode: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired

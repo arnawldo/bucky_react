@@ -106,16 +106,17 @@ export const clearNotifications = () =>
  * @param {string} password - The password of user.
  */
 export const addBucketList = (name, username, password) => dispatch =>
-    axios.post(BUCKETLISTENDPOINT,
-        {
-            data: {
-                name: name
-            },
-            auth: {
-                username: username,
-                password: password
-            }
-        })
+    axios({
+        method: "post",
+        url: BUCKETLISTENDPOINT,
+        auth: {
+            username: username,
+            password: password
+        },
+        data: {
+            name: name
+        }
+    })
         .then((res) => {
             if (res.status === 201) {
                 // bucket-list was created
@@ -154,13 +155,14 @@ export const addBucketList = (name, username, password) => dispatch =>
  * @param {string} password - The password of user.
  */
 export const deleteBucketList = (bucketId, username, password) => dispatch =>
-    axios.delete(BUCKETLISTENDPOINT + bucketId,
-        {
-            auth: {
-                username: username,
-                password: password
-            }
-        })
+    axios({
+        method: "delete",
+        url: BUCKETLISTENDPOINT + bucketId,
+        auth: {
+            username: username,
+            password: password
+        }
+    })
         .then((res) => {
             if (res.status === 200) {
                 // bucket-list was deleted
@@ -199,16 +201,17 @@ export const deleteBucketList = (bucketId, username, password) => dispatch =>
  * @param {string} password - The password of user.
  */
 export const editBucketList = (bucketId, newName, username, password) => dispatch =>
-    axios.patch(BUCKETLISTENDPOINT + bucketId,
-        {
-            data: {
-                "name": newName
-            },
-            auth: {
-                username: username,
-                password: password
-            }
-        })
+    axios({
+        method: "patch",
+        url: BUCKETLISTENDPOINT + bucketId,
+        data: {
+            "name": newName
+        },
+        auth: {
+            username: username,
+            password: password
+        }
+    })
         .then((res) => {
             if (res.status === 200) {
                 // bucket-list was edited successfully
@@ -247,7 +250,9 @@ export const editBucketList = (bucketId, newName, username, password) => dispatc
  * @param {string} password - The password of user.
  */
 export const fetchBucketLists = (username, password) => dispatch =>
-    axios.get(BUCKETLISTENDPOINT, {
+    axios({
+        method: "get",
+        url: BUCKETLISTENDPOINT,
         auth: {
             username: username,
             password: password
@@ -285,13 +290,14 @@ export const fetchBucketLists = (username, password) => dispatch =>
  * @param {string} password - The password of user.
  */
 export const fetchBucketListsPage = (pageNumber, username, password) => dispatch =>
-    axios.get(BUCKETLISTENDPOINT + "?page=" + (pageNumber + 1),
-        {
-            auth: {
-                username: username,
-                password: password
-            }
-        })
+    axios({
+        method: "get",
+        url: BUCKETLISTENDPOINT + "?page=" + (pageNumber + 1),
+        auth: {
+            username: username,
+            password: password
+        }
+    })
         .then((res) => {
                 if (res.status === 200) {
                     // bucket-lists received
@@ -398,13 +404,14 @@ export const clearBuckets = () =>
  * @param {string} password - The password of user.
  */
 export const fetchTasks = (bucketId, username, password) => dispatch =>
-    axios.get(BUCKETLISTENDPOINT + bucketId + "/tasks/",
-        {
-            auth: {
-                username: username,
-                password: password
-            }
-        })
+    axios({
+        method: "get",
+        url: BUCKETLISTENDPOINT + bucketId + "/tasks/",
+        auth: {
+            username: username,
+            password: password
+        }
+    })
         .then((res) => {
                 if (res.status === 200) {
                     // tasks received
@@ -444,13 +451,14 @@ export const fetchTasks = (bucketId, username, password) => dispatch =>
  * @param {string} password - The password of user.
  */
 export const deleteTask = (bucketId, taskId, username, password) => dispatch =>
-    axios.delete(BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
-        {
-            auth: {
-                username: username,
-                password: password
-            }
-        })
+    axios({
+        method: "delete",
+        url: BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
+        auth: {
+            username: username,
+            password: password
+        }
+    })
         .then((res) => {
             if (res.status === 200) {
                 return ({
@@ -489,16 +497,17 @@ export const deleteTask = (bucketId, taskId, username, password) => dispatch =>
  * @param {string} password - The password of user.
  */
 export const editTask = (bucketId, taskId, newDescription, username, password) => dispatch =>
-    axios.patch(BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
-        {
-            auth: {
-                username: username,
-                password: password
-            },
-            data: {
-                description: newDescription
-            }
-        })
+    axios({
+        method: "patch",
+        url: BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
+        auth: {
+            username: username,
+            password: password
+        },
+        data: {
+            description: newDescription
+        }
+    })
         .then((res) => {
             if (res.status === 200) {
                 // task was created
@@ -537,23 +546,24 @@ export const editTask = (bucketId, taskId, newDescription, username, password) =
  * @param {string} password - The password of user.
  */
 export const addTask = (bucketId, description, username, password) => dispatch =>
-    axios.post(BUCKETLISTENDPOINT + bucketId + /tasks/,
-        {
-            auth: {
-                username: username,
-                password: password
-            },
-            data: {
-                description: description
-            }
-        })
+    axios({
+        method: "post",
+        url: BUCKETLISTENDPOINT + bucketId + /tasks/,
+        auth: {
+            username: username,
+            password: password
+        },
+        data: {
+            description: description
+        }
+    })
         .then((res) => {
             if (res.status === 201) {
                 return ({
                     // task was created
                     // add it to store
                     type: C.ADD_TASK,
-                    task_id: res.data.task.id,
+                    taskId: res.data.task.id,
                     bucketId: bucketId,
                     description: description
                 })

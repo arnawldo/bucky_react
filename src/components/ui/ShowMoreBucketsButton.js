@@ -11,7 +11,7 @@ const ShowMoreBucketsButton = ({ user, bucketPaginator, onFetchBucketPage}) => {
 
     return (<li className="more-buckets-button-container">
         {(bucketPaginator.hasNextPage === true) ?
-            <a href="#" className="more-buckets-button-container" onClick={getNextPage}>
+            <a href="/ignore-this-url" className="more-buckets-button-container" onClick={getNextPage}>
                 <i className="glyphicon glyphicon-plus" id="more-buckets-button"></i>
             </a> : null}
     </li>)

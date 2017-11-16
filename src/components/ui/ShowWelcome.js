@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 
 const ShowWelcome = ({user, history}) => {
@@ -17,7 +17,7 @@ const ShowWelcome = ({user, history}) => {
     return (
         <div className="jumbotron gloria-font">
             <h1>Plan for the future today with Bucky!</h1>
-            <p><a className="btn btn-success btn-lg" href="#" role="button" onClick={goToRegister}>Get started</a></p>
+            <p><a className="btn btn-success btn-lg" href="/ignore-this-url" role="button" onClick={goToRegister}>Get started</a></p>
         </div>
     )
 };

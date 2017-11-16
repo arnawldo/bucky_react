@@ -5,7 +5,7 @@ export const task = (state = {}, action) => {
     switch (action.type) {
         case C.ADD_TASK:
             return {
-                id: action.taskId,
+                id: parseInt(action.taskId, 10),
                 description: action.description,
                 editMode: false
             };
@@ -40,7 +40,7 @@ export const tasks = (state = [], action) => {
         case C.SET_TASKS:
             const receivedTasks = action.tasks.map(
                 t => ({
-                    id: t.id,
+                    id: parseInt(t.id, 10),
                     description: t.description,
                     editMode: false
                 }));
@@ -93,7 +93,7 @@ export const bucketlist = (state = {}, action) => {
             };
         case C.ADD_BUCKETLIST:
             return {
-                id: action.bucketId,
+                id: parseInt(action.bucketId, 10),
                 name: action.name,
                 tasks: [],
                 editMode: false
@@ -159,7 +159,7 @@ export const bucketlists = (state = [], action) => {
         case C.SET_BUCKETLISTS:
             const receivedBuckets = action.bucketlists.map(
                 b => ({
-                    id: b.id,
+                    id: parseInt(b.id, 10),
                     name: b.name,
                     tasks: tasks([], {type: C.SET_TASKS, tasks: b.tasks}),
                     editMode: false
@@ -170,7 +170,7 @@ export const bucketlists = (state = [], action) => {
         case C.APPEND_BUCKETLISTS:
             const moreBuckets = action.bucketlists.map(
                 b => ({
-                    id: b.id,
+                    id: parseInt(b.id, 10),
                     name: b.name,
                     tasks: b.tasks,
                     editMode: false
@@ -228,7 +228,7 @@ export const searchedBucketLists = (state = [], action) => {
         case C.ADD_SEARCHED_BUCKETLISTS:
             const receivedBuckets = action.bucketlists.map(
                 b => ({
-                    id: b.id,
+                    id: parseInt(b.id, 10),
                     name: b.name,
                     tasks: b.tasks
                 }));

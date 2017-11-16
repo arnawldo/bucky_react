@@ -29,12 +29,12 @@ class ShowTasks extends Component {
         if (user.hasOwnProperty("username")) {
 
             const getTasks = (array, id) => {
-                let arr = array.filter(bk => bk.id === id);
-                let first = arr[0];
+                const arr = array.filter(bk => bk.id === id);
+                const first = arr[0];
                 return first["tasks"];
             };
 
-            const tasks = getTasks(bucketlists, bucketId);
+            const tasks = getTasks(bucketlists, bucketId, 10);
 
             return (
                 <ul id="list-of-tasks" className="gloria-font">

@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-const AddTaskForm = ({bucket_id, onNewTask = f => f}) => {
+const AddTaskForm = ({bucketId, onNewTask, user}) => {
 
     let _description;
 
     const submit = e => {
         e.preventDefault();
-        onNewTask(bucket_id, _description.value, "arnold", "test");
+        onNewTask(bucketId, _description.value, user.username, user.password);
         _description.value = '';
         _description.focus()
     };
@@ -25,7 +25,8 @@ const AddTaskForm = ({bucket_id, onNewTask = f => f}) => {
 
 AddTaskForm.propTypes = {
     onNewTask: PropTypes.func.isRequired,
-    bucketId: PropTypes.number.isRequired
+    bucketId: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 export default AddTaskForm

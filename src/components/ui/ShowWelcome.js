@@ -1,7 +1,12 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 
-const ShowWelcome = ({history}) => {
+const ShowWelcome = ({user, history}) => {
+
+    // if user is logged in, go to bucket-lists page
+    if (user.hasOwnProperty("username")) {
+        history.push("/bucketlists")
+    }
 
     const goToRegister = (e) => {
         e.preventDefault();
@@ -18,7 +23,8 @@ const ShowWelcome = ({history}) => {
 };
 
 ShowWelcome.propTypes = {
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 export default ShowWelcome

@@ -15,10 +15,11 @@ class ShowBuckets extends Component {
     }
 
     componentWillMount() {
-        const {user, history} = this.props;
+        const {user, history, onResetPageCounter} = this.props;
         if (!user.hasOwnProperty("username")) {
             history.push('/')
         }
+        onResetPageCounter();
     }
 
     componentWillUnmount() {
@@ -62,7 +63,8 @@ ShowBuckets.propTypes = {
     onFetchBuckets: PropTypes.func.isRequired,
     onEditBucket: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    bucketPaginator: PropTypes.object.isRequired
 };
 
 export default ShowBuckets

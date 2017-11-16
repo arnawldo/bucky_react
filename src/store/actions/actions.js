@@ -285,7 +285,7 @@ export const fetchBucketLists = (username, password) => dispatch =>
  * @param {string} password - The password of user.
  */
 export const fetchBucketListsPage = (pageNumber, username, password) => dispatch =>
-    axios.get(BUCKETLISTENDPOINT + (pageNumber + 1),
+    axios.get(BUCKETLISTENDPOINT + "?page=" + (pageNumber + 1),
         {
             auth: {
                 username: username,

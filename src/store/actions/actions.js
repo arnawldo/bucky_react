@@ -122,7 +122,7 @@ export const addBucketList = (name, username, password) => dispatch =>
                 // add it to store
                 return ({
                     type: C.ADD_BUCKETLIST,
-                    bucketId: parseInt(res.data.bucketList.id),
+                    bucketId: parseInt(res.data.bucketList.id, 10),
                     name: res.data.bucketList.name
                 })
             }
@@ -370,4 +370,20 @@ export const bucketExitEditMode = (bucketId) =>
     ({
         type: C.BUCKET_EXIT_EDIT_MODE,
         bucketId: bucketId
+    });
+
+/**
+ * Clear user details from store
+ */
+export const removeUser = () =>
+    ({
+        type: C.REMOVE_USER
+    });
+
+/**
+ * Clear bucket-lists from store
+ */
+export const clearBuckets = () =>
+    ({
+        type: C.DELETE_ALL_BUCKETLISTS
     });

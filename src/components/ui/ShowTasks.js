@@ -29,7 +29,7 @@ class ShowTasks extends Component {
         if (user.hasOwnProperty("username")) {
 
             const getTasks = (array, id) => {
-                let arr = array.filter(bk => bk.id == id);
+                let arr = array.filter(bk => bk.id === id);
                 let first = arr[0];
                 return first["tasks"];
             };

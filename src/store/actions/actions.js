@@ -387,3 +387,191 @@ export const clearBuckets = () =>
     ({
         type: C.DELETE_ALL_BUCKETLISTS
     });
+
+/**
+ * Make request to fetch tasks for a bucket-list in the store.
+ * If request is successful, fetched tasks are set for bucket-list in the store.
+ * If request is unsuccessful, a helpful message will be dispatched
+ *
+ * @param {number} bucketId - The id of the bucket-list whose tasks to fetch.
+ * @param {string} username - The username of user.
+ * @param {string} password - The password of user.
+ */
+export const fetchTasks = (bucketId, username, password) => dispatch =>
+    axios.get(BUCKETLISTENDPOINT + bucketId + "/tasks/",
+        {
+            auth: {
+                username: username,
+                password: password
+            }
+        })
+        .then((res) => {
+                if (res.status === 200) {
+                    // tasks received
+                    // set in store
+                    return ({
+                        type: C.SET_TASKS,
+                        bucketId: bucketId,
+                        tasks: res.data["tasks"]
+                    })
+                }
+            }
+        )
+        .then(dispatch)
+        .catch((error) => {
+            if (error.response.status === 404) {
+                dispatch({
+                    type: C.SET_TASKS,
+                    bucketId: bucketId,
+                    tasks: []
+                });
+            } else {
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "There was a problem getting your tasks"
+                });
+            }
+        });
+
+/**
+ * Make request to delete task for a bucket-list in the store.
+ * If request is successful, task is removed from store.
+ * If request is unsuccessful, a helpful message will be dispatched
+ *
+ * @param {number} bucketId - The id of the bucket-list whose task to delete.
+ * @param {number} taskId - The id of task to delete.
+ * @param {string} username - The username of user.
+ * @param {string} password - The password of user.
+ */
+export const deleteTask = (bucketId, taskId, username, password) => dispatch =>
+    axios.delete(BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
+        {
+            auth: {
+                username: username,
+                password: password
+            }
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                return ({
+                    // task was deleted
+                    // remove task from store
+                    type: C.DELETE_TASK,
+                    taskId: taskId,
+                    bucketId: bucketId
+                })
+            }
+        })
+        .then(dispatch)
+        .catch((error) => {
+            if (error.response.status === 404) {
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "Task does not exist anymore!"
+                });
+            } else {
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "There was a problem getting your tasks."
+                });
+            }
+        });
+
+/**
+ * Make request to edit description of task.
+ * If request is successful, task is edited in store.
+ * If request is unsuccessful, a helpful message will be dispatched
+ *
+ * @param {number} bucketId - The id of the bucket-list.
+ * @param {number} taskId - The id of the bucket-list.
+ * @param {string} newDescription  - The new name of the task
+ * @param {string} username - The username of user.
+ * @param {string} password - The password of user.
+ */
+export const editTask = (bucketId, taskId, newDescription, username, password) => dispatch =>
+    axios.patch(BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
+        {
+            auth: {
+                username: username,
+                password: password
+            },
+            data: {
+                description: newDescription
+            }
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                // task was created
+                // edit task in store
+                dispatch({
+                    type: C.EDIT_TASK,
+                    taskId: taskId,
+                    bucketId: bucketId,
+                    newDescription: newDescription
+                });
+                dispatch(taskExitEditMode(bucketId, taskId));
+            }
+        })
+        .catch((error) => {
+            if (error.response.status === 404) {
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "Task does not exist anymore!"
+                });
+            } else {
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "There was a problem getting your tasks."
+                });
+            }
+        });
+
+/**
+ * Make request to create a new task.
+ * If request is successful, task is added to store.
+ * If request is unsuccessful, a helpful message will be dispatched
+ *
+ * @param {number} bucketId - The id of the bucket-list.
+ * @param {string} description  - The new name of the task
+ * @param {string} username - The username of user.
+ * @param {string} password - The password of user.
+ */
+export const addTask = (bucketId, description, username, password) => dispatch =>
+    axios.post(BUCKETLISTENDPOINT + bucketId + /tasks/,
+        {
+            auth: {
+                username: username,
+                password: password
+            },
+            data: {
+                description: description
+            }
+        })
+        .then((res) => {
+            if (res.status === 201) {
+                return ({
+                    // task was created
+                    // add it to store
+                    type: C.ADD_TASK,
+                    task_id: res.data.task.id,
+                    bucketId: bucketId,
+                    description: description
+                })
+            }
+        })
+        .then(dispatch)
+        .catch((error) => {
+            if (error.response.status === 409) {
+                // task already exists
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "Task \"" + description + "\" already exists."
+                });
+            } else {
+                // other server error
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "Try again."
+                });
+            }
+        });

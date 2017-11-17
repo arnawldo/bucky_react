@@ -1,8 +1,8 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import thunk from 'redux-thunk';
-import configureMockStore from 'redux-mock-store';
-import {loginUser, registerUser} from "../actions";
+import thunk from "redux-thunk";
+import configureMockStore from "redux-mock-store";
+import {addBucketList, loginUser, registerUser} from "../actions";
 import C from "../../../constants";
 
 // API endpoints
@@ -18,18 +18,18 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 
-describe('Async actions', () => {
+describe("Async actions", () => {
     afterEach(() => {
         mockAxios.reset(); // reset mocking behaviour
     });
 
-    it('registerUser creates ADD_USER action when registration is successful', () => {
+    it("registerUser creates ADD_USER action when registration is successful", () => {
 
         mockAxios.onPost(USERENDPOINT,
             {
                 data: {
-                    username: 'user',
-                    password: 'test'
+                    username: "user",
+                    password: "test"
                 }
             })
             .reply(201);
@@ -59,13 +59,13 @@ describe('Async actions', () => {
 
     });
 
-    it('registerUser creates ADD_NOTIFICATION action when username already exists', () => {
+    it("registerUser creates ADD_NOTIFICATION action when username already exists", () => {
 
         mockAxios.onPost(USERENDPOINT,
             {
                 data: {
-                    username: 'user',
-                    password: 'test'
+                    username: "user",
+                    password: "test"
                 }
             })
             .reply(409);
@@ -95,13 +95,13 @@ describe('Async actions', () => {
 
     });
 
-    it('addUser creates ADD_USER action when login is successful', () => {
+    it("loginUser creates ADD_USER action when login is successful", () => {
 
         mockAxios.onGet(BUCKETLISTENDPOINT,
             {
                 data: {
-                    username: 'user',
-                    password: 'test'
+                    username: "user",
+                    password: "test"
                 }
             })
             .reply(200);
@@ -129,4 +129,108 @@ describe('Async actions', () => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
     })
+
+    it("loginUser creates ADD_NOTIFICATION action when unauthorized", () => {
+
+        mockAxios.onGet(BUCKETLISTENDPOINT,
+            {
+                data: {
+                    username: "user",
+                    password: "test"
+                }
+            })
+            .reply(401);
+
+        const expectedActions = [
+            {
+                type: C.ADD_NOTIFICATION,
+                notification: "Incorrect Username or Password"
+            }
+        ];
+
+        const state = {
+            user: {},
+            bucketlists: [],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store
+            .dispatch(loginUser("user", "test"))
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
+    it("loginUser creates ADD_NOTIFICATION action when unauthorized", () => {
+
+        mockAxios.onGet(BUCKETLISTENDPOINT,
+            {
+                data: {
+                    username: "user",
+                    password: "test"
+                }
+            })
+            .reply(500);
+
+        const expectedActions = [
+            {
+                type: C.ADD_NOTIFICATION,
+                notification: "A problem occured... Try again."
+            }
+        ];
+
+        const state = {
+            user: {},
+            bucketlists: [],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store
+            .dispatch(loginUser("user", "test"))
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
+    it("addBucketList creates ADD_BUCKETLIST action bucket-list successfully created", () => {
+
+        mockAxios.onPost(BUCKETLISTENDPOINT)
+            .reply(201, {
+                bucketList: {
+                    id: 1,
+                    name: "buck"
+                }
+            });
+
+        const expectedActions = [
+            {
+                type: C.ADD_BUCKETLIST,
+                bucketId: 1,
+                name: "buck"
+            }
+        ];
+
+        const state = {
+            user: {},
+            bucketlists: [],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store
+            .dispatch(addBucketList("buck", "user", "test"))
+            .then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
+
 });

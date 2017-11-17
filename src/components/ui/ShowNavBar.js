@@ -32,7 +32,7 @@ const ShowNavBar = ({user, history}) => {
                 <ul className="nav navbar-nav">
                     <li><a href="/ignore-this-url" onClick={goToBucketLists}>Home <i className="glyphicon glyphicon-home"></i></a></li>
                     {(user.hasOwnProperty("username")) ?
-                        <li><a href="#" onClick={goToSearch}>Search <i className="glyphicon glyphicon-search"></i></a></li> :
+                        <li><a href="/ignore-this-url" onClick={goToSearch}>Search <i className="glyphicon glyphicon-search"></i></a></li> :
                         null
                     }
                 </ul>

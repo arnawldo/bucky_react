@@ -1,10 +1,11 @@
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {
-    addBucketList, addTask, bucketEnterEditMode, bucketExitEditMode, clearBuckets, clearNotifications, deleteBucketList,
+    addBucketList, addTask, bucketEnterEditMode, bucketExitEditMode, clearBuckets, clearNotifications,
+    clearSearchedBuckets, deleteBucketList,
     deleteTask,
     editBucketList, editTask,
-    fetchBucketLists, fetchBucketListsPage, fetchTasks,
+    fetchBucketLists, fetchBucketListsPage, fetchSearchedBucketLists, fetchTasks,
     loginUser,
     registerUser, removeUser, resetPageCounter, taskEnterEditMode, taskExitEditMode
 } from "../../store/actions/actions";
@@ -19,6 +20,8 @@ import ShowLogout from "../ui/ShowLogout";
 import AddTaskForm from "../ui/AddTaskForm";
 import ShowTasks from "../ui/ShowTasks";
 import ShowNavBar from "../ui/ShowNavBar";
+import ShowSearchedBuckets from "../ui/ShowSearchedBuckets";
+import ShowSearchBucketForm from "../ui/ShowSearchBucketForm";
 
 
 export const LoginPage = withRouter(connect(
@@ -197,3 +200,33 @@ export const NavBar = withRouter(connect(
         }),
     null
 )(ShowNavBar));
+
+export const SearchBucketList = connect(
+    state => ({
+        user: {...state.user}
+    }),
+    dispatch =>
+        ({
+            onSearchBucket(search_term, username, password) {
+                dispatch(fetchSearchedBucketLists(search_term, username, password))
+            }
+        })
+)(ShowSearchBucketForm);
+
+export const SearchedBucketLists = withRouter(connect(
+    (state, props) =>
+        ({
+            user: {...state.user},
+            searchedBucketLists: [...state.searchedBucketLists],
+            history: props.history
+        }),
+    dispatch =>
+        ({
+            onSearchBucket(search_term, username, password) {
+                dispatch(fetchSearchedBucketLists(search_term, username, password))
+            },
+            onClearSearchedBucketLists() {
+                dispatch(clearSearchedBuckets())
+            }
+        })
+)(ShowSearchedBuckets));

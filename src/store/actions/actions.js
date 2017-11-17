@@ -585,3 +585,48 @@ export const addTask = (bucketId, description, username, password) => dispatch =
                 });
             }
         });
+
+/**
+ * Make request to search for bucket-lists matching a search term.
+ * If request is successful, add searched bucket-lists to store.
+ * If request is unsuccessful, a helpful message will be dispatched
+ *
+ * @param {string} searchTerm  - The letters to match bucket-lists' names.
+ * @param {string} username - The username of user.
+ * @param {string} password - The password of user.
+ */
+export const fetchSearchedBucketLists = (searchTerm, username, password) => dispatch =>
+    axios({
+        method: "get",
+        url:  BUCKETLISTENDPOINT + "search/" + searchTerm,
+        auth: {
+            username: username,
+            password: password
+        }
+    })
+        .then((res) => {
+                if (res.status === 200) {
+                    // matched bucket-lists received
+                    // add them to store
+                    return ({
+                        type: C.ADD_SEARCHED_BUCKETLISTS,
+                        bucketlists: res.data["bucket-lists"]
+                    })
+                }
+            }
+        )
+        .then(dispatch)
+        .catch(() => {
+                dispatch({
+                    type: C.ADD_NOTIFICATION,
+                    notification: "Try again."
+                });
+        });
+
+/**
+ * Clear searched bucket-lists from store
+ */
+export const clearSearchedBuckets = () =>
+    ({
+        type: C.DELETE_ALL_SEARCHED_BUCKETLISTS
+    });

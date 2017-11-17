@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    BucketLists, BucketName, LoginPage, LogoutPage, NavBar, NewBucketList, NewTask, Notifications, RegisterPage, Tasks,
+    BucketLists, BucketName, LoginPage, LogoutPage, NavBar, NewBucketList, NewTask, Notifications, RegisterPage,
+    SearchBucketList, SearchedBucketLists, Tasks,
     WelcomePage
 } from "./components/containers/containers";
 import {Route, Switch} from "react-router-dom";
@@ -56,6 +57,17 @@ const App = () =>
                                                       <BucketName/>
                                                       <NewTask/>
                                                       <Tasks/>
+                                                  </div>
+                                              )}/>
+                                       <Route exact path="/bucketlists/search"
+                                              component={() => (
+                                                  <div>
+                                                      <Notifications/>
+                                                      <div className="page-header">
+                                                          <h1>Search</h1>
+                                                      </div>
+                                                      <SearchBucketList/>
+                                                      <SearchedBucketLists/>
                                                   </div>
                                               )}/>
                                    </div>

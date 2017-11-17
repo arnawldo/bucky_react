@@ -44,6 +44,7 @@ describe("<ShowNavBar /> with user ", () => {
         expect(enzymeWrapper.find("div.container-fluid").length).toEqual(1);
         expect(enzymeWrapper.find(".navbar-brand").length).toEqual(1);
         expect(enzymeWrapper.find(".glyphicon-home").length).toEqual(1);
+        expect(enzymeWrapper.find('.glyphicon-search').length).toEqual(1);
         expect(enzymeWrapper.find(".glyphicon-log-out").length).toEqual(1);
         expect(enzymeWrapper.find(".glyphicon-log-in").length).toEqual(0);
     });
@@ -53,6 +54,14 @@ describe("<ShowNavBar /> with user ", () => {
         const {enzymeWrapper, props} = setupWithUser();
 
         enzymeWrapper.find(".glyphicon-home").simulate("click");
+        expect(props.history.push.calledOnce).toEqual(true);
+    });
+
+    it('should redirect when Search clicked', () => {
+
+        const {enzymeWrapper, props} = setupWithUser();
+
+        enzymeWrapper.find('.glyphicon-search').simulate('click');
         expect(props.history.push.calledOnce).toEqual(true);
     });
 
@@ -82,6 +91,7 @@ describe("ShowNavBar Component Without User", () => {
         expect(enzymeWrapper.find("div.container-fluid").length).toEqual(1);
         expect(enzymeWrapper.find(".navbar-brand").length).toEqual(1);
         expect(enzymeWrapper.find(".glyphicon-home").length).toEqual(1);
+        expect(enzymeWrapper.find('.glyphicon-search').length).toEqual(0);
         expect(enzymeWrapper.find(".glyphicon-log-out").length).toEqual(0);
         expect(enzymeWrapper.find(".glyphicon-log-in").length).toEqual(1);
     });

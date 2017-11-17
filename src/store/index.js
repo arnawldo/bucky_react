@@ -1,6 +1,6 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk';
-import {bucketlists, user, searchedBucketLists, notifications, bucketPaginator} from "./reducers";
+import {bucketlists, user, searchedBucketLists, notifications, bucketPaginator} from "./reducers/reducers";
 
 // Middle-ware for logging actions that are dispatched
 const logger = store => next => action => {

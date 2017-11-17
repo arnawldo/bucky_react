@@ -2,7 +2,7 @@ import React from "react";
 import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import * as sinon from "sinon";
-import ShowRegister from "../ui/ShowRegister";
+import ShowRegister from "../ShowRegister";
 
 Enzyme.configure({adapter: new Adapter()});
 

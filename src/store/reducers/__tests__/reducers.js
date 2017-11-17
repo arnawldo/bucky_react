@@ -53,14 +53,15 @@ describe("Bucketlist Reducer", () => {
         };
         const result = bucketlist(state, action);
         expect(result)
-            .toEqual({id: 1, name: "bucket 1", tasks: []})
+            .toEqual({id: 1, name: "bucket 1", tasks: [], editMode: false})
     });
 
     it("ADD_TASK dispatched successfully", () => {
         const state = {
             id: 1,
             name: "bucket 1",
-            tasks: []
+            tasks: [],
+            editMode: false
         };
         const action = {
             type: "ADD_TASK",
@@ -76,9 +77,11 @@ describe("Bucketlist Reducer", () => {
                 tasks: [
                     {
                         id: 1,
-                        description: "task 1"
+                        description: "task 1",
+                        editMode: false
                     }
-                ]
+                ],
+                editMode: false
             })
     });
 
@@ -86,7 +89,8 @@ describe("Bucketlist Reducer", () => {
         const state = {
             id: 1,
             name: "bucket 1",
-            tasks: []
+            tasks: [],
+            editMode: false
         };
         const action = {
             type: "SET_TASKS",
@@ -99,9 +103,10 @@ describe("Bucketlist Reducer", () => {
         expect(result)
             .toEqual({
                 id: 1, name: "bucket 1", tasks: [
-                    {id: 1, description: "task 1"},
-                    {id: 2, description: "task 2"}
-                ]
+                    {id: 1, description: "task 1", editMode: false},
+                    {id: 2, description: "task 2", editMode: false}
+                ],
+                editMode: false
             });
     });
 
@@ -110,9 +115,10 @@ describe("Bucketlist Reducer", () => {
             id: 1,
             name: "bucket 1",
             tasks: [
-                {id: 1, description: "task 1"},
-                {id: 2, description: "task 2"}
-            ]
+                {id: 1, description: "task 1", editMode: false},
+                {id: 2, description: "task 2", editMode: false}
+            ],
+            editMode: false
         };
         const action = {
             type: "DELETE_TASK",
@@ -125,8 +131,9 @@ describe("Bucketlist Reducer", () => {
                 id: 1,
                 name: "bucket 1",
                 tasks: [
-                    {id: 2, description: "task 2"}
-                ]
+                    {id: 2, description: "task 2", editMode: false}
+                ],
+                editMode: false
             })
     });
 
@@ -134,7 +141,7 @@ describe("Bucketlist Reducer", () => {
         const state = {};
         const action = {
             type: "WRONG",
-            bucket_id: 1,
+            bucketId: 1,
             name: "bucket 1"
         };
         const result = bucketlist(state, action);
@@ -154,14 +161,14 @@ describe("Task Reducer", () => {
         };
         const result = task(state, action);
         expect(result)
-            .toEqual({id: 1, description: "task 1"})
+            .toEqual({id: 1, description: "task 1", editMode: false})
     });
 
     it("Unknown action does not change state", () => {
         const state = {};
         const action = {
             type: "WRONG",
-            task_id: 1,
+            taskId: 1,
             description: "task 1"
         };
         const result = task(state, action);
@@ -176,7 +183,8 @@ describe("Bucketlists Reducer", () => {
         const state = [{
             id: 1,
             name: "bucket 1",
-            tasks: []
+            tasks: [],
+            editMode: false
         }];
         const action = {
             type: "ADD_TASK",
@@ -192,9 +200,11 @@ describe("Bucketlists Reducer", () => {
                 tasks: [
                     {
                         id: 1,
-                        description: "task 1"
+                        description: "task 1",
+                        editMode: false
                     }
-                ]
+                ],
+                editMode: false
             }])
     });
 
@@ -203,21 +213,24 @@ describe("Bucketlists Reducer", () => {
             {
                 id: 1,
                 name: "bucket 1",
-                tasks: []
+                tasks: [],
+                editMode: false
             },
             {
                 id: 2,
                 name: "bucket 2",
-                tasks: []
+                tasks: [],
+                editMode: false
             }
         ];
         const action = {
             type: "SET_TASKS",
             bucketId: 1,
             tasks: [
-                {id: 1, description: "task 1"},
-                {id: 2, description: "task 2"}
-            ]
+                {id: 1, description: "task 1", editMode: false},
+                {id: 2, description: "task 2", editMode: false}
+            ],
+            editMode: false
         };
         const result = bucketlists(state, action);
         expect(result)
@@ -226,13 +239,15 @@ describe("Bucketlists Reducer", () => {
                     id: 1,
                     name: "bucket 1",
                     tasks: [
-                        {id: 1, description: "task 1"},
-                        {id: 2, description: "task 2"}
-                    ]
+                        {id: 1, description: "task 1", editMode: false},
+                        {id: 2, description: "task 2", editMode: false}
+                    ],
+                    editMode: false
                 }, {
                     id: 2,
                     name: "bucket 2",
-                    tasks: []
+                    tasks: [],
+                    editMode: false
                 }
             ]);
     });
@@ -242,9 +257,10 @@ describe("Bucketlists Reducer", () => {
             id: 1,
             name: "bucket 1",
             tasks: [
-                {id: 1, description: "task 1"},
-                {id: 2, description: "task 2"}
-            ]
+                {id: 1, description: "task 1", editMode: false},
+                {id: 2, description: "task 2", editMode: false}
+            ],
+            editMode: false
         }];
         const action = {
             type: "DELETE_TASK",
@@ -257,8 +273,9 @@ describe("Bucketlists Reducer", () => {
                 id: 1,
                 name: "bucket 1",
                 tasks: [
-                    {id: 2, description: "task 2"}
-                ]
+                    {id: 2, description: "task 2", editMode: false}
+                ],
+                editMode: false
             }])
     });
 
@@ -271,7 +288,7 @@ describe("Bucketlists Reducer", () => {
         };
         const result = bucketlists(state, action);
         expect(result)
-            .toEqual([{id: 1, name: "bucket 1", tasks: []}])
+            .toEqual([{id: 1, name: "bucket 1", tasks: [], editMode: false}])
     });
 
     it("SET_BUCKETLISTS dispatched successfully", () => {
@@ -288,8 +305,8 @@ describe("Bucketlists Reducer", () => {
         const result = bucketlists(state, action);
         expect(result)
             .toEqual([
-                {id: 1, name: "1", tasks: []},
-                {id: 2, name: "5", tasks: [{id: 1, description: "7"}]}
+                {id: 1, name: "1", tasks: [], editMode: false},
+                {id: 2, name: "5", tasks: [{id: 1, description: "7", editMode: false}], editMode: false}
             ])
     });
 
@@ -327,8 +344,8 @@ describe("Bucketlists Reducer", () => {
 
     it("DELETE_BUCKETLIST dispatched successfully", () => {
         const state = [
-            {id: 1, name: "1", tasks: []},
-            {id: 2, name: "5", tasks: [{id: 1, description: "7"}]}
+            {id: 1, name: "1", tasks: [], editMode: false},
+            {id: 2, name: "5", tasks: [{id: 1, description: "7", editMode: false}], editMode: false}
         ];
         const action = {
             type: "DELETE_BUCKETLIST",
@@ -337,13 +354,13 @@ describe("Bucketlists Reducer", () => {
         const result = bucketlists(state, action);
         expect(result)
             .toEqual([
-                {id: 1, name: "1", tasks: []}
+                {id: 1, name: "1", tasks: [], editMode: false}
             ])
     });
 
     it("EDIT_BUCKETLIST dispatched successfully", () => {
         const state = [
-            {id: 1, name: "1", tasks: []}
+            {id: 1, name: "1", tasks: [], editMode: false}
         ];
         const action = {
             type: "EDIT_BUCKETLIST",
@@ -353,13 +370,13 @@ describe("Bucketlists Reducer", () => {
         const result = bucketlists(state, action);
         expect(result)
             .toEqual([
-                {id: 1, name: "one", tasks: []}
+                {id: 1, name: "one", tasks: [], editMode: false}
             ])
     });
 
     it("EDIT_TASK dispatched successfully", () => {
         const state = [
-            {id: 1, name: "1", tasks: [{id: 1, description: "7"}]}
+            {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: false}], editMode: false}
         ];
         const action = {
             type: "EDIT_TASK",
@@ -370,7 +387,69 @@ describe("Bucketlists Reducer", () => {
         const result = bucketlists(state, action);
         expect(result)
             .toEqual([
-                {id: 1, name: "1", tasks: [{id: 1, description: "one"}]}
+                {id: 1, name: "1", tasks: [{id: 1, description: "one", editMode: false}], editMode: false}
+            ])
+    });
+
+    it("BUCKET_ENTER_EDIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [], editMode: false}
+        ];
+        const action = {
+            type: "BUCKET_ENTER_EDIT_MODE",
+            bucketId: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [], editMode: true}
+            ])
+    });
+
+    it("BUCKET_ENTER_EXIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [], editMode: true}
+        ];
+        const action = {
+            type: "BUCKET_EXIT_EDIT_MODE",
+            bucketId: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [], editMode: false}
+            ])
+    });
+
+    it("TASK_ENTER_EDIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: false}], editMode: false}
+        ];
+        const action = {
+            type: "TASK_ENTER_EDIT_MODE",
+            bucketId: 1,
+            taskId: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: true}], editMode: false}
+            ])
+    });
+
+    it("TASK_ENTER_EXIT_MODE success", () => {
+        const state = [
+            {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: true}], editMode: false}
+        ];
+        const action = {
+            type: "TASK_EXIT_EDIT_MODE",
+            bucketId: 1,
+            taskId: 1
+        };
+        const result = bucketlists(state, action);
+        expect(result)
+            .toEqual([
+                {id: 1, name: "1", tasks: [{id: 1, description: "7", editMode: false}], editMode: false}
             ])
     });
 
@@ -426,7 +505,7 @@ describe("Searched Bucketlists Reducer", () => {
         const state = {};
         const action = {
             type: "WRONG",
-            bucket_id: 1,
+            bucketId: 1,
             name: "bucket 1"
         };
         const result = searchedBucketLists(state, action);
@@ -446,7 +525,7 @@ describe("Tasks Reducer", () => {
         };
         const result = tasks(state, action);
         expect(result)
-            .toEqual([{id: 1, description: "task 1"}])
+            .toEqual([{id: 1, description: "task 1", editMode: false}])
     });
 
     it("SET_TASKS dispatched successfully", () => {
@@ -461,15 +540,15 @@ describe("Tasks Reducer", () => {
         const result = tasks(state, action);
         expect(result)
             .toEqual([
-                {id: 1, description: "task 1"},
-                {id: 2, description: "task 2"}
+                {id: 1, description: "task 1", editMode: false},
+                {id: 2, description: "task 2", editMode: false}
             ])
     });
 
     it("DELETE_TASK dispatched successfully", () => {
         const state = [
-            {id: 1, description: "task 1"},
-            {id: 3, description: "task 3"}
+            {id: 1, description: "task 1", editMode: false},
+            {id: 3, description: "task 3", editMode: false}
         ];
         const action = {
             type: "DELETE_TASK",
@@ -478,7 +557,7 @@ describe("Tasks Reducer", () => {
         const result = tasks(state, action);
         expect(result)
             .toEqual([
-                {id: 3, description: "task 3"}
+                {id: 3, description: "task 3", editMode: false}
             ])
     });
 

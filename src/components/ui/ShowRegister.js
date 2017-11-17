@@ -21,7 +21,7 @@ class ShowRegister extends Component {
     goToLogin(e) {
         const { history } = this.props;
         e.preventDefault();
-        history.push('/');
+        history.push('/login');
     }
 
     componentWillMount() {

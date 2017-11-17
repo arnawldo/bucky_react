@@ -13,7 +13,7 @@ class ShowSearchedBuckets extends Component {
 
     render() {
 
-        const { user, searchedBucketLists, history} = this.props;
+        const {user, searchedBucketLists, history} = this.props;
 
         if (user.hasOwnProperty("username")) {
             return (<ul id="list-of-buckets" className="gloria-font">

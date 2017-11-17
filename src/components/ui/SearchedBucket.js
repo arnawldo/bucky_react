@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types";
 
 
-const SearchedBucket = ({ id, name, history }) => {
+const SearchedBucket = ({id, name, history}) => {
 
     const goToTasks = (e) => {
         e.preventDefault();

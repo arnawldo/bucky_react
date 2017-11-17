@@ -1,16 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+import React from "react"
+import PropTypes from "prop-types";
 
 
 const SearchedBucket = ({ id, name, history }) => {
 
     const goToTasks = (e) => {
         e.preventDefault();
-        history.push("/bucketlists/:id/tasks".replace(':id', id));
+        history.push("/bucketlists/:id/tasks".replace(":id", id));
     };
 
     return <li className="bucket">
-        <a href='#' onClick={goToTasks}>{name}</a>
+        <a href="/ignore-this-url" onClick={goToTasks}>{name}</a>
     </li>
 };
 

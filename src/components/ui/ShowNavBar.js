@@ -8,6 +8,11 @@ const ShowNavBar = ({user, history}) => {
         history.push("/bucketlists")
     };
 
+    const goToSearch = (e) => {
+        e.preventDefault();
+        history.push("/bucketlists/search")
+    };
+
     const goToLogin = (e) => {
         e.preventDefault();
         history.push("/login")
@@ -26,7 +31,10 @@ const ShowNavBar = ({user, history}) => {
                 </div>
                 <ul className="nav navbar-nav">
                     <li><a href="/ignore-this-url" onClick={goToBucketLists}>Home <i className="glyphicon glyphicon-home"></i></a></li>
-
+                    {(user.hasOwnProperty("username")) ?
+                        <li><a href="#" onClick={goToSearch}>Search <i className="glyphicon glyphicon-search"></i></a></li> :
+                        null
+                    }
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
                     {(user.hasOwnProperty("username")) ?

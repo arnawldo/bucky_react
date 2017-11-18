@@ -3,9 +3,15 @@ import MockAdapter from "axios-mock-adapter";
 import thunk from "redux-thunk";
 import configureMockStore from "redux-mock-store";
 import {
-    addBucketList, deleteBucketList, deleteTask, editBucketList, editTask, fetchBucketLists, fetchBucketListsPage,
+    addBucketList, addTask, bucketEnterEditMode, bucketExitEditMode, clearBuckets, clearNotifications,
+    clearSearchedBuckets,
+    deleteBucketList,
+    deleteTask, editBucketList,
+    editTask,
+    fetchBucketLists,
+    fetchBucketListsPage,
     fetchSearchedBucketLists, fetchTasks, loginUser,
-    registerUser
+    registerUser, removeUser, resetPageCounter, taskEnterEditMode, taskExitEditMode
 } from "../actions";
 import C from "../../../constants";
 
@@ -470,6 +476,109 @@ describe("Async actions", () => {
         });
     });
 
+    it("addTask creates ADD_TASK when task successfully created", () => {
+
+        mockAxios.onPost(BUCKETLISTENDPOINT + "1/tasks/")
+            .reply(201, {
+                task: {
+                    id: 1,
+                    description: "task"
+                }
+            });
+
+        const expectedActions = [
+            {
+                type: C.ADD_TASK,
+                taskId: 1,
+                bucketId: 1,
+                description: "task"
+            }
+        ];
+
+        const state = {
+            user: {username: "user", password: "test"},
+            bucketlists: [{
+                id: 1,
+                name: "buck 1",
+                tasks: [{id: 2, description: "old task", editMode: false}],
+                editMode: false
+            }],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store.dispatch(addTask(1, "task", "user", "test")).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+
+    it("addTask creates ADD_NOTIFICATION when task already exists", () => {
+
+        mockAxios.onPost(BUCKETLISTENDPOINT + "1/tasks/")
+            .reply(409);
+
+        const expectedActions = [
+            {
+                type: C.ADD_NOTIFICATION,
+                notification: "Task \"task\" already exists."
+            }
+        ];
+
+        const state = {
+            user: {username: "user", password: "test"},
+            bucketlists: [{
+                id: 1,
+                name: "buck 1",
+                tasks: [{id: 2, description: "old task", editMode: false}],
+                editMode: false
+            }],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store.dispatch(addTask(1, "task", "user", "test")).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+
+    it("addTask creates ADD_NOTIFICATION when other server error", () => {
+
+        mockAxios.onPost(BUCKETLISTENDPOINT + "1/tasks/")
+            .reply(403);
+
+        const expectedActions = [
+            {
+                type: C.ADD_NOTIFICATION,
+                notification: "Try again."
+            }
+        ];
+
+        const state = {
+            user: {username: "user", password: "test"},
+            bucketlists: [{
+                id: 1,
+                name: "buck 1",
+                tasks: [{id: 2, description: "old task", editMode: false}],
+                editMode: false
+            }],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store.dispatch(addTask(1, "task", "user", "test")).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+
     it("editTask creates EDIT_TASK when task successfully edited", () => {
 
         mockAxios.onPatch("/api/v1.0/bucketlists/1/tasks/1")
@@ -672,7 +781,7 @@ describe("Async actions", () => {
     });
 
 
-    it("fetchBucketLists creates SET_BUCKETLISTS when buckets successfully fetched", () => {
+    it("fetchBucketLists creates SET_BUCKETLISTS and HAS_NEXT_PAGE when buckets successfully fetched", () => {
 
         mockAxios.onGet(BUCKETLISTENDPOINT)
             .reply(200, {
@@ -692,6 +801,44 @@ describe("Async actions", () => {
             },
             {
                 type: C.HAS_NEXT_PAGE, hasNextPage: true
+            }
+        ];
+
+        const state = {
+            user: {},
+            bucketlists: [],
+            searchedBucketLists: [],
+            notifications: []
+        };
+
+        const store = mockStore(state);
+
+        return store.dispatch(fetchBucketLists("user", "test")).then(() => {
+            // return of async actions
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+
+    it("fetchBucketLists creates SET_BUCKETLISTS and HAS_NEXT_PAGE when buckets successfully fetched", () => {
+
+        mockAxios.onGet(BUCKETLISTENDPOINT)
+            .reply(200, {
+                "bucket-lists": [{id: 1, name: "buck", tasks: []}],
+                next: null
+            });
+
+        const expectedActions = [
+            {
+                type: C.SET_BUCKETLISTS,
+                bucketlists: [
+                    {
+                        "id": 1,
+                        "name": "buck",
+                        "tasks": []
+                    }]
+            },
+            {
+                type: C.HAS_NEXT_PAGE, hasNextPage: false
             }
         ];
 
@@ -964,7 +1111,6 @@ describe("Async actions", () => {
         const state = {
             user: {},
             bucketlists: [],
-            
             searchedBucketLists: [],
             notifications: []
         };
@@ -975,6 +1121,80 @@ describe("Async actions", () => {
             // return of async actions
             expect(store.getActions()).toEqual(expectedActions)
         });
+    });
+
+
+});
+
+describe('Synchronous actions', () => {
+
+    it('clearSearchedBuckets should create DELETE_ALL_SEARCHED_BUCKETLISTS action', () => {
+        const expectedAction = {
+            type: C.DELETE_ALL_SEARCHED_BUCKETLISTS
+        };
+        expect(clearSearchedBuckets()).toEqual(expectedAction)
+    });
+
+    it('clearBuckets should create DELETE_ALL_BUCKETLISTS action', () => {
+        const expectedAction = {
+            type: C.DELETE_ALL_BUCKETLISTS
+        };
+        expect(clearBuckets()).toEqual(expectedAction)
+    });
+
+    it('removeUser should create REMOVE_USER action', () => {
+        const expectedAction = {
+            type: C.REMOVE_USER
+        };
+        expect(removeUser()).toEqual(expectedAction)
+    });
+
+    it('bucketExitEditMode should create BUCKET_EXIT_EDIT_MODE action', () => {
+        const expectedAction = {
+            type: C.BUCKET_EXIT_EDIT_MODE,
+            bucketId: 1
+        };
+        expect(bucketExitEditMode(1)).toEqual(expectedAction)
+    });
+
+    it('bucketExitEnterMode should create BUCKET_ENTER_EDIT_MODE action', () => {
+        const expectedAction = {
+            type: C.BUCKET_ENTER_EDIT_MODE,
+            bucketId: 1
+        };
+        expect(bucketEnterEditMode(1)).toEqual(expectedAction)
+    });
+
+    it('taskExitEditMode should create TASK_EXIT_EDIT_MODE action', () => {
+        const expectedAction = {
+            type: C.TASK_EXIT_EDIT_MODE,
+            bucketId: 1,
+            taskId: 1
+        };
+        expect(taskExitEditMode(1, 1)).toEqual(expectedAction)
+    });
+
+    it('taskEnterEditMode should create TASK_EXIT_EDIT_MODE action', () => {
+        const expectedAction = {
+            type: C.TASK_ENTER_EDIT_MODE,
+            bucketId: 1,
+            taskId: 1
+        };
+        expect(taskEnterEditMode(1, 1)).toEqual(expectedAction)
+    });
+
+    it('resetPageCounter should create RESET_PAGE_COUNTER action', () => {
+        const expectedAction = {
+            type: C.RESET_PAGE_COUNTER
+        };
+        expect(resetPageCounter()).toEqual(expectedAction)
+    });
+
+    it('clearNotifications should create CLEAR_NOTIFICATIONS action', () => {
+        const expectedAction = {
+            type: C.CLEAR_NOTIFICATIONS
+        };
+        expect(clearNotifications()).toEqual(expectedAction)
     });
 
 });

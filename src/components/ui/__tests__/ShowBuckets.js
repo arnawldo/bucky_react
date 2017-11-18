@@ -109,11 +109,18 @@ describe("<ShowBuckets /> with one bucket", () => {
 
     });
 
-    it("should fetch buckets on mount", () => {
+    it("should fetch buckets and reset counter on mount", () => {
         const {props} = setupOneBucket();
 
         expect(props.onFetchBuckets.calledOnce).toEqual(true);
+        expect(props.onResetPageCounter.calledOnce).toEqual(true);
 
+    });
+
+    it("should not redirect to welcome page when logged in", () => {
+        const {props} = setupOneBucket();
+
+        expect(props.history.push.calledOnce).toEqual(false);
     });
 
 });
@@ -129,6 +136,20 @@ describe("<ShowBuckets /> with many bucket-list pages", () => {
 
     });
 
+    it("should fetch buckets and reset counter on mount", () => {
+        const {props} = setupPaginatedBuckets();
+
+        expect(props.onFetchBuckets.calledOnce).toEqual(true);
+        expect(props.onResetPageCounter.calledOnce).toEqual(true);
+
+    });
+
+    it("should not redirect to welcome page when logged in", () => {
+        const {props} = setupPaginatedBuckets();
+
+        expect(props.history.push.calledOnce).toEqual(false);
+    });
+
 });
 
 
@@ -140,6 +161,22 @@ describe("<ShowBuckets /> with no bucket-lists", () => {
         expect(enzymeWrapper.find("li.bucket").text()).toBe("No Buckets Here. (Add a Bucket)");
 
     });
+
+    it("should fetch buckets and reset counter on mount", () => {
+        const {props} = setupWithoutBuckets();
+
+        expect(props.onFetchBuckets.calledOnce).toEqual(true);
+        expect(props.onResetPageCounter.calledOnce).toEqual(true);
+
+    });
+
+    it("should not redirect to welcome page when logged in", () => {
+        const {props} = setupWithoutBuckets();
+
+        expect(props.history.push.calledOnce).toEqual(false);
+    });
+
+
 });
 
 
@@ -151,4 +188,18 @@ describe("<ShowBuckets /> for not logged in user", () => {
 
         expect(props.history.push.calledOnce).toEqual(true);
     });
+
+    it("should not render any buckets", () => {
+        const {enzymeWrapper} = setupWithoutUser();
+
+        expect(enzymeWrapper.find("li.bucket").text()).toBe("No Buckets Here. (Add a Bucket)");
+
+    });
+
+    it("should not fetch buckets on mount", () => {
+        const {props} = setupWithoutUser();
+
+        expect(props.onFetchBuckets.calledOnce).toEqual(false);
+    });
+
 });

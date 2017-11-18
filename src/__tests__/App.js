@@ -61,3 +61,65 @@ describe("<App />", () => {
 
 });
 
+describe('<App /> Logged IN User', () => {
+
+    const testState = {
+        user: {username: "user", password: "test"},
+        bucketlists: [{id: 1, name: "buck", tasks: [{id: 1, description: "task", editMode: false}], editMode: false}],
+        searchedBucketLists: [{id: 1, name: "buck", tasks: [], editMode: false}],
+        notifications: []
+    };
+
+    const store = createMockStore(testState);
+
+    const wrapperBuckets = mount(
+        <MemoryRouter initialEntries={['/bucketlists']} initialIndex={0}>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </MemoryRouter>
+    );
+
+
+    it('renders self and components', () => {
+        expect(wrapperBuckets.find('section.main-container').length).toEqual(1);
+        expect(wrapperBuckets.find('.page-header').text()).toBe('Bucket-lists');
+        expect(wrapperBuckets.find('#newBucketForm').length).toEqual(1);
+        expect(wrapperBuckets.find('li.bucket').length).toEqual(1);
+
+    });
+
+    const wrapperTasks = mount(
+        <MemoryRouter initialEntries={['/bucketlists/1/tasks']} initialIndex={0}>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </MemoryRouter>
+    );
+
+    it('renders self and components', () => {
+        expect(wrapperTasks.find('section.main-container').length).toEqual(1);
+        expect(wrapperTasks.find('h1').text()).toBe('buck');
+        expect(wrapperTasks.find('#newTaskForm').length).toEqual(1);
+        expect(wrapperTasks.find('#list-of-tasks').length).toEqual(1);
+
+    });
+
+    const wrapperSearch = mount(
+        <MemoryRouter initialEntries={['/bucketlists/search']} initialIndex={0}>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </MemoryRouter>
+    );
+
+    it('renders self and components', () => {
+        expect(wrapperSearch.find('section.main-container').length).toEqual(1);
+        expect(wrapperSearch.find('h1').text()).toBe('Search');
+        expect(wrapperSearch.find('#newBucketForm').length).toEqual(1);
+        expect(wrapperSearch.find('#list-of-buckets').length).toEqual(1);
+
+    });
+
+});
+

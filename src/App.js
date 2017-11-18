@@ -17,16 +17,16 @@ const App = () =>
                 <section className="row" id="page-content">
                     <Switch>
                         <Route exact path="/"
-                               component={() => (
+                               component={(props, state) => (
                                    <div>
-                                       <WelcomePage />
+                                       <WelcomePage history={props.history}/>
                                    </div>
                                )} />
                         <Route exact path="/login"
-                               component={() => (
+                               component={(props, state) => (
                                    <div>
                                        <Notifications />
-                                       <LoginPage />
+                                       <LoginPage history={props.history}/>
                                    </div>
                                )} />
                         <Route exact path="/register"
@@ -40,34 +40,34 @@ const App = () =>
                                component={() => (
                                    <div>
                                        <Route exact path="/bucketlists"
-                                              component={() => (
+                                              component={(props, state) => (
                                                   <div>
                                                       <Notifications/>
                                                       <div className="page-header">
                                                           <h1>Bucket-lists</h1>
                                                       </div>
                                                       <NewBucketList/>
-                                                      <BucketLists/>
+                                                      <BucketLists history={props.history}/>
                                                   </div>
                                               )}/>
                                        <Route exact path="/bucketlists/:id/tasks"
-                                              component={() => (
+                                              component={(props, state) => (
                                                   <div>
                                                       <Notifications/>
-                                                      <BucketName/>
-                                                      <NewTask/>
-                                                      <Tasks/>
+                                                      <BucketName match={props.match}/>
+                                                      <NewTask match={props.match}/>
+                                                      <Tasks history={props.history} match={props.match}/>
                                                   </div>
                                               )}/>
                                        <Route exact path="/bucketlists/search"
-                                              component={() => (
+                                              component={(props, state) => (
                                                   <div>
                                                       <Notifications/>
                                                       <div className="page-header">
                                                           <h1>Search</h1>
                                                       </div>
                                                       <SearchBucketList/>
-                                                      <SearchedBucketLists/>
+                                                      <SearchedBucketLists history={props.history}/>
                                                   </div>
                                               )}/>
                                    </div>

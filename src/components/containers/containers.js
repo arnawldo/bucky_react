@@ -24,7 +24,7 @@ import ShowSearchedBuckets from "../ui/ShowSearchedBuckets";
 import ShowSearchBucketForm from "../ui/ShowSearchBucketForm";
 
 
-export const LoginPage = withRouter(connect(
+export const LoginPage = connect(
     (state, props) =>
         ({
             user: {...state.user},
@@ -36,7 +36,7 @@ export const LoginPage = withRouter(connect(
                 dispatch(loginUser(username, password))
             }
         })
-)(ShowLogin));
+)(ShowLogin);
 
 
 export const RegisterPage = withRouter(connect(
@@ -53,7 +53,7 @@ export const RegisterPage = withRouter(connect(
         })
 )(ShowRegister));
 
-export const Notifications = withRouter(connect(
+export const Notifications = connect(
     state => ({
         notifications: [...state.notifications]
     }),
@@ -62,7 +62,7 @@ export const Notifications = withRouter(connect(
             dispatch(clearNotifications())
         }
     })
-)(ShowNotifications));
+)(ShowNotifications);
 
 export const NewBucketList = connect(
     state =>
@@ -77,7 +77,7 @@ export const NewBucketList = connect(
         })
 )(AddBucketForm);
 
-export const BucketLists = withRouter(connect(
+export const BucketLists = connect(
     (state, props) =>
         ({
             user: {...state.user},
@@ -109,19 +109,19 @@ export const BucketLists = withRouter(connect(
                 dispatch(resetPageCounter())
             }
         })
-)(ShowBuckets));
+)(ShowBuckets);
 
 
-export const BucketName = withRouter(connect(
+export const BucketName = connect(
     (state, props) =>
         ({
             bucketId: parseInt(props.match.params.id, 10),
             bucketlists: [...state.bucketlists]
         }),
     null
-)(ShowBucketName));
+)(ShowBucketName);
 
-export const NewTask = withRouter(connect(
+export const NewTask = connect(
     (state, props) =>
         ({
             bucketId: parseInt(props.match.params.id, 10),
@@ -133,10 +133,10 @@ export const NewTask = withRouter(connect(
                 dispatch(addTask(bucketId, description, username, password))
             }
         })
-)(AddTaskForm));
+)(AddTaskForm);
 
 
-export const Tasks = withRouter(connect(
+export const Tasks = connect(
     (state, props) =>
         ({
             user: {...state.user},
@@ -162,20 +162,20 @@ export const Tasks = withRouter(connect(
                 dispatch(editTask(bucketId, taskId, newDescription, username, password))
             }
         })
-)(ShowTasks));
+)(ShowTasks);
 
 
 
-export const WelcomePage = withRouter(connect(
+export const WelcomePage = connect(
     (state, props) =>
         ({
             history: props.history,
             user: {...state.user}
         }),
     null
-)(ShowWelcome));
+)(ShowWelcome);
 
-export const LogoutPage = withRouter(connect(
+export const LogoutPage = connect(
     (state, props) =>
         ({
             user: {...state.user},
@@ -190,7 +190,7 @@ export const LogoutPage = withRouter(connect(
                 dispatch(removeUser())
             }
         })
-)(ShowLogout));
+)(ShowLogout);
 
 export const NavBar = withRouter(connect(
     (state, props) =>
@@ -213,7 +213,7 @@ export const SearchBucketList = connect(
         })
 )(ShowSearchBucketForm);
 
-export const SearchedBucketLists = withRouter(connect(
+export const SearchedBucketLists = connect(
     (state, props) =>
         ({
             user: {...state.user},
@@ -229,4 +229,4 @@ export const SearchedBucketLists = withRouter(connect(
                 dispatch(clearSearchedBuckets())
             }
         })
-)(ShowSearchedBuckets));
+)(ShowSearchedBuckets);

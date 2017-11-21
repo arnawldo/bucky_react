@@ -51,12 +51,12 @@ module.exports = {
     'edit a bucket-list': (browser) => {
         browser
             .click('.glyphicon-pencil')
-            .pause(200)
-            .setValue('input#editBucketForm', 'go cycling')
+            .pause(1000)
+            .setValue('form#editBucketForm>input', 'go cycling')
             // submit the form
-            .click('.glyphicon-ok')
+            .click('i.glyphicon.glyphicon-ok')
             // wait for the list to update
-            .pause(500);
+            .pause(1000);
 
         // List of buckets loaded
         browser.expect.element('#list-of-buckets').text.to.contain('go cycling');

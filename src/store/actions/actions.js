@@ -13,8 +13,10 @@ const BUCKETLISTENDPOINT = "/api/v1.0/bucketlists/";
  * @param {string} password - The password of new user.
  */
 export const registerUser = (username, password) => dispatch =>
-    axios.post(USERENDPOINT,
-        {
+    axios({
+        method: "post",
+        url: USERENDPOINT,
+
             data: {
                 username: username,
                 password: password

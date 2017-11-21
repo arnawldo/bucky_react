@@ -35,13 +35,7 @@ describe("Async actions", () => {
 
     it("registerUser creates ADD_USER action when registration is successful", () => {
 
-        mockAxios.onPost(USERENDPOINT,
-            {
-                data: {
-                    username: "user",
-                    password: "test"
-                }
-            })
+        mockAxios.onPost(USERENDPOINT)
             .reply(201);
 
         const expectedActions = [
@@ -71,13 +65,7 @@ describe("Async actions", () => {
 
     it("registerUser creates ADD_NOTIFICATION action when username already exists", () => {
 
-        mockAxios.onPost(USERENDPOINT,
-            {
-                data: {
-                    username: "user",
-                    password: "test"
-                }
-            })
+        mockAxios.onPost(USERENDPOINT)
             .reply(409);
 
         const expectedActions = [

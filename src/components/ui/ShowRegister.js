@@ -27,7 +27,14 @@ class ShowRegister extends Component {
     componentWillMount() {
         const { user, history } = this.props;
         if (user.hasOwnProperty("username")) {
-            history.push('/');
+            history.push('/bucketlists');
+        }
+    }
+
+    componentDidUpdate() {
+        const { user, history } = this.props;
+        if (user.hasOwnProperty("username")) {
+            history.push('/bucketlists');
         }
     }
 

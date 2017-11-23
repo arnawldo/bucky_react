@@ -2,8 +2,8 @@ import axios from "axios";
 import C from "../../constants";
 
 // API endpoints
-const USERENDPOINT = "https://bucky-api.herokuapp.com/api/v1.0/auth/users/";
-const BUCKETLISTENDPOINT = "https://bucky-api.herokuapp.com/api/v1.0/bucketlists/";
+const USERENDPOINT = "/api/v1.0/auth/users/";
+const BUCKETLISTENDPOINT = "/api/v1.0/bucketlists/";
 
 /**
  * Make request to register a new user.

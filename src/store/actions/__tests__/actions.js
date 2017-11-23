@@ -16,8 +16,8 @@ import {
 import C from "../../../constants";
 
 // API endpoints
-const USERENDPOINT = "/api/v1.0/auth/users/";
-const BUCKETLISTENDPOINT = "/api/v1.0/bucketlists/";
+const USERENDPOINT = "https://bucky-api.herokuapp.com/api/v1.0/auth/users/";
+const BUCKETLISTENDPOINT = "https://bucky-api.herokuapp.com/api/v1.0/bucketlists/";
 
 
 // for mocking axios calls
@@ -569,7 +569,7 @@ describe("Async actions", () => {
 
     it("editTask creates EDIT_TASK when task successfully edited", () => {
 
-        mockAxios.onPatch("/api/v1.0/bucketlists/1/tasks/1")
+        mockAxios.onPatch("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/1/tasks/1")
             .reply(200);
 
         const expectedActions = [
@@ -608,7 +608,7 @@ describe("Async actions", () => {
 
     it("editTask creates ADD_NOTIFICATION when task no longer exists", () => {
 
-        mockAxios.onPatch("/api/v1.0/bucketlists/1/tasks/1")
+        mockAxios.onPatch("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/1/tasks/1")
             .reply(404);
 
         const expectedActions = [
@@ -640,7 +640,7 @@ describe("Async actions", () => {
 
     it("editTask creates ADD_NOTIFICATION when other server error", () => {
 
-        mockAxios.onPatch("/api/v1.0/bucketlists/1/tasks/1")
+        mockAxios.onPatch("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/1/tasks/1")
             .reply(500);
 
         const expectedActions = [
@@ -847,7 +847,7 @@ describe("Async actions", () => {
 
     it("fetchBucketLists creates ADD_NOTIFICATION when server error", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/")
             .reply(500);
 
         const expectedActions = [{
@@ -873,7 +873,7 @@ describe("Async actions", () => {
 
     it("fetchBucketListPage creates APPEND_BUCKETLISTS when buckets page successfully fetched", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/?page=2")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/?page=2")
             .reply(200,
                 {
                     "bucket-lists": [{
@@ -922,7 +922,7 @@ describe("Async actions", () => {
 
     it("fetchBucketListPage creates ADD_NOTIFICATIONS when server error", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/?page=2")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/?page=2")
             .reply(500);
 
         const expectedActions = [
@@ -950,7 +950,7 @@ describe("Async actions", () => {
 
     it("fetchSearchedBucketLists creates ADD_SEARCHED_BUCKETLISTS when buckets successfully fetched", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/search/buck")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/search/buck")
             .reply(200,
                 {
                     "bucket-lists": [{
@@ -990,7 +990,7 @@ describe("Async actions", () => {
 
     it("fetchSearchedBucketLists creates ADD_NOTIFICATION server error", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/search/buck")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/search/buck")
             .reply(500);
 
         const expectedActions = [
@@ -1018,7 +1018,7 @@ describe("Async actions", () => {
 
     it("fetchTasks creates SET_TASKS when tasks successfully fetched", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/1/tasks/")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/1/tasks/")
             .reply(200,
                 {
                     "tasks": [{
@@ -1057,7 +1057,7 @@ describe("Async actions", () => {
 
     it("fetchTasks creates SET_TASKS when tasks not found", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/1/tasks/")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/1/tasks/")
             .reply(404);
 
         const expectedActions = [
@@ -1086,7 +1086,7 @@ describe("Async actions", () => {
 
     it("fetchTasks creates ADD_NOTIFICATION when other server error", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/1/tasks/")
+        mockAxios.onGet("https://bucky-api.herokuapp.com/api/v1.0/bucketlists/1/tasks/")
             .reply(500);
 
         const expectedActions = [

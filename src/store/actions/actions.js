@@ -2,7 +2,8 @@ import axios from "axios";
 import C from "../../constants";
 
 // API endpoints
-const USERENDPOINT = "/api/v1.0/auth/users/";
+const SITEURL = "https://bucky-react.herokuapp.com";
+const USERENDPOINT = SITEURL + "/api/v1.0/auth/users/";
 const BUCKETLISTENDPOINT = "/api/v1.0/bucketlists/";
 
 /**

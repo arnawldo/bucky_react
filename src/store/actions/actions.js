@@ -2,7 +2,7 @@ import axios from "axios";
 import C from "../../constants";
 
 // API endpoints
-const getAPIURL = () => {
+export const getAPIURL = () => {
     const envAPIURL = process.env["API_URL"];
     if (envAPIURL === undefined) {
         return "https://bucky-api.herokuapp.com";

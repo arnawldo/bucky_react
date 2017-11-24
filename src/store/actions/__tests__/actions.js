@@ -10,7 +10,7 @@ import {
     editTask,
     fetchBucketLists,
     fetchBucketListsPage,
-    fetchSearchedBucketLists, fetchTasks, loginUser,
+    fetchSearchedBucketLists, fetchTasks, getAPIURL, loginUser,
     registerUser, removeUser, resetPageCounter, taskEnterEditMode, taskExitEditMode
 } from "../actions";
 import C from "../../../constants";
@@ -28,6 +28,40 @@ const mockAxios = new MockAdapter(axios);
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+describe("Environment variables", () => {
+
+    let env;
+
+    // create mock environment
+    beforeAll(() => {
+        env = process.env;
+    });
+
+
+    it("if API_URL is set, SITEURL is also set", () => {
+        // set env variable
+        process.env = {
+            API_URL: "/api-url"
+        };
+        const siteUrl = getAPIURL();
+        expect(siteUrl).toEqual("/api-url");
+    });
+
+    it("if API_URL is not set, SITEURL is set to default", () => {
+        // set env variable
+        // set env variable
+        process.env = {
+            API_URL: undefined
+        };
+        const siteUrl = getAPIURL();
+        expect(siteUrl).toEqual("https://bucky-api.herokuapp.com");
+    });
+
+    // restoring everything back
+    afterAll(() => {
+        process.env = env;
+    });
+});
 
 describe("Async actions", () => {
     afterEach(() => {

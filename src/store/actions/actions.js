@@ -2,7 +2,15 @@ import axios from "axios";
 import C from "../../constants";
 
 // API endpoints
-const SITEURL = "https://bucky-api.herokuapp.com";
+const getAPIURL = () => {
+    const envAPIURL = process.env["API_URL"];
+    if (envAPIURL === undefined) {
+        return "https://bucky-api.herokuapp.com";
+    } else {
+        return envAPIURL;
+    }
+};
+const SITEURL = getAPIURL();
 const USERENDPOINT = SITEURL + "/api/v1.0/auth/users/";
 const BUCKETLISTENDPOINT = SITEURL + "/api/v1.0/bucketlists/";
 

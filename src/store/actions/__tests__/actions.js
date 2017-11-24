@@ -16,8 +16,9 @@ import {
 import C from "../../../constants";
 
 // API endpoints
-const USERENDPOINT = "/api/v1.0/auth/users/";
-const BUCKETLISTENDPOINT = "/api/v1.0/bucketlists/";
+const SITEURL = "https://bucky-api.herokuapp.com";
+const USERENDPOINT = SITEURL + "/api/v1.0/auth/users/";
+const BUCKETLISTENDPOINT = SITEURL + "/api/v1.0/bucketlists/";
 
 
 // for mocking axios calls
@@ -569,7 +570,7 @@ describe("Async actions", () => {
 
     it("editTask creates EDIT_TASK when task successfully edited", () => {
 
-        mockAxios.onPatch("/api/v1.0/bucketlists/1/tasks/1")
+        mockAxios.onPatch(BUCKETLISTENDPOINT + "1/tasks/1")
             .reply(200);
 
         const expectedActions = [
@@ -608,7 +609,7 @@ describe("Async actions", () => {
 
     it("editTask creates ADD_NOTIFICATION when task no longer exists", () => {
 
-        mockAxios.onPatch("/api/v1.0/bucketlists/1/tasks/1")
+        mockAxios.onPatch(BUCKETLISTENDPOINT + "1/tasks/1")
             .reply(404);
 
         const expectedActions = [
@@ -640,7 +641,7 @@ describe("Async actions", () => {
 
     it("editTask creates ADD_NOTIFICATION when other server error", () => {
 
-        mockAxios.onPatch("/api/v1.0/bucketlists/1/tasks/1")
+        mockAxios.onPatch(BUCKETLISTENDPOINT + "1/tasks/1")
             .reply(500);
 
         const expectedActions = [
@@ -873,7 +874,7 @@ describe("Async actions", () => {
 
     it("fetchBucketListPage creates APPEND_BUCKETLISTS when buckets page successfully fetched", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/?page=2")
+        mockAxios.onGet(BUCKETLISTENDPOINT + "?page=2")
             .reply(200,
                 {
                     "bucket-lists": [{
@@ -950,7 +951,7 @@ describe("Async actions", () => {
 
     it("fetchSearchedBucketLists creates ADD_SEARCHED_BUCKETLISTS when buckets successfully fetched", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/search/buck")
+        mockAxios.onGet(BUCKETLISTENDPOINT + "search/buck")
             .reply(200,
                 {
                     "bucket-lists": [{
@@ -1018,7 +1019,7 @@ describe("Async actions", () => {
 
     it("fetchTasks creates SET_TASKS when tasks successfully fetched", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/1/tasks/")
+        mockAxios.onGet(BUCKETLISTENDPOINT + "1/tasks/")
             .reply(200,
                 {
                     "tasks": [{
@@ -1086,7 +1087,7 @@ describe("Async actions", () => {
 
     it("fetchTasks creates ADD_NOTIFICATION when other server error", () => {
 
-        mockAxios.onGet("/api/v1.0/bucketlists/1/tasks/")
+        mockAxios.onGet(BUCKETLISTENDPOINT + "1/tasks/")
             .reply(500);
 
         const expectedActions = [

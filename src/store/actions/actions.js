@@ -4,7 +4,7 @@ import C from "../../constants";
 // API endpoints
 const SITEURL = "https://bucky-api.herokuapp.com";
 const USERENDPOINT = SITEURL + "/api/v1.0/auth/users/";
-const BUCKETLISTENDPOINT = "/api/v1.0/bucketlists/";
+const BUCKETLISTENDPOINT = SITEURL + "/api/v1.0/bucketlists/";
 
 /**
  * Make request to register a new user.

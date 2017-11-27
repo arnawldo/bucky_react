@@ -7,7 +7,7 @@ import {
     clearSearchedBuckets,
     deleteBucketList,
     deleteTask, editBucketList,
-    editTask,
+    editTask, enterLoadingMode, exitLoadingMode,
     fetchBucketLists,
     fetchBucketListsPage,
     fetchSearchedBucketLists, fetchTasks, getAPIURL, loginUser,
@@ -75,9 +75,15 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_USER,
                 username: "user",
                 password: "test"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -85,7 +91,8 @@ describe("Async actions", () => {
             user: {},
             bucketlists: [],
             searchedBucketLists: [],
-            notifications: []
+            notifications: [],
+            isLoading: false
         };
 
         const store = mockStore(state);
@@ -105,9 +112,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
-
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "This username already exists!"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -141,9 +153,15 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_USER,
                 username: "user",
                 password: "test"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -176,8 +194,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Incorrect Username or Password"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -210,8 +234,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "A problem occured... Try again."
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -243,9 +273,15 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_BUCKETLIST,
                 bucketId: 1,
                 name: "buck"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -272,8 +308,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Bucket-list \"buck\" already exists"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -301,8 +343,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Try again"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -330,8 +378,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.DELETE_BUCKETLIST,
                 bucketId: 1
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -359,8 +413,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Bucket-list no longer exists"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -388,8 +448,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Try again"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -417,6 +483,9 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.EDIT_BUCKETIST,
                 bucketId: 1,
                 newName: "back 1"
@@ -424,13 +493,16 @@ describe("Async actions", () => {
             {
                 type: C.BUCKET_EXIT_EDIT_MODE,
                 bucketId: 1
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
         const state = {
             user: {},
             bucketlists: [{id: 1, name: "buck 1", tasks: [], editMode: false}],
-            
+
             searchedBucketLists: [],
             errors: []
         };
@@ -451,8 +523,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Bucket-list no longer exists"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -479,8 +557,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Try again"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -511,10 +595,16 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_TASK,
                 taskId: 1,
                 bucketId: 1,
                 description: "task"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -545,8 +635,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Task \"task\" already exists."
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -577,8 +673,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Try again."
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -609,6 +711,9 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.EDIT_TASK,
                 taskId: 1,
                 bucketId: 1,
@@ -618,6 +723,9 @@ describe("Async actions", () => {
                 type: C.TASK_EXIT_EDIT_MODE,
                 bucketId: 1,
                 taskId: 1
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -648,8 +756,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Task does not exist anymore!"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -680,8 +794,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "There was a problem getting your tasks."
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -712,9 +832,15 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.DELETE_TASK,
                 taskId: 1,
                 bucketId: 1
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -726,7 +852,7 @@ describe("Async actions", () => {
                 tasks: [{id: 1, description: "old task", editMode: false}],
                 editMode: false
             }],
-            
+
             searchedBucketLists: [],
             notifications: []
         };
@@ -746,8 +872,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Task does not exist anymore!"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -778,8 +910,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "There was a problem getting your tasks."
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -814,6 +952,10 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+
+            {
                 type: C.SET_BUCKETLISTS,
                 bucketlists: [
                     {
@@ -824,6 +966,9 @@ describe("Async actions", () => {
             },
             {
                 type: C.HAS_NEXT_PAGE, hasNextPage: true
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -852,6 +997,9 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.SET_BUCKETLISTS,
                 bucketlists: [
                     {
@@ -862,6 +1010,9 @@ describe("Async actions", () => {
             },
             {
                 type: C.HAS_NEXT_PAGE, hasNextPage: false
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -885,10 +1036,18 @@ describe("Async actions", () => {
         mockAxios.onGet("/api/v1.0/bucketlists/")
             .reply(500);
 
-        const expectedActions = [{
-            type: C.ADD_NOTIFICATION,
-            notification: "There was a problem getting your bucket-lists"
-        }];
+        const expectedActions = [
+            {
+                type: C.ENTER_LOADING
+            },
+            {
+                type: C.ADD_NOTIFICATION,
+                notification: "There was a problem getting your bucket-lists"
+            },
+            {
+                type: C.EXIT_LOADING
+            }
+        ];
 
         const state = {
             user: {},
@@ -922,6 +1081,9 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.APPEND_BUCKETLISTS,
                 bucketlists: [
                     {
@@ -936,13 +1098,16 @@ describe("Async actions", () => {
             },
             {
                 type: C.SET_CURRENT_PAGE, currentPage: 2
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
         const state = {
             user: {},
             bucketlists: [],
-            
+
             searchedBucketLists: [],
             errors: []
         };
@@ -962,15 +1127,21 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "There was a problem getting your bucket-lists"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
         const state = {
             user: {},
             bucketlists: [],
-            
+
             searchedBucketLists: [],
             notifications: []
         };
@@ -997,6 +1168,9 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_SEARCHED_BUCKETLISTS,
                 bucketlists: [
                     {
@@ -1004,13 +1178,16 @@ describe("Async actions", () => {
                         "name": "buck 1",
                         "tasks": []
                     }]
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
         const state = {
             user: {},
             bucketlists: [],
-            
+
             searchedBucketLists: [],
             errors: []
         };
@@ -1030,15 +1207,21 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "Try again."
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
         const state = {
             user: {},
             bucketlists: [],
-            
+
             searchedBucketLists: [],
             notifications: []
         };
@@ -1064,6 +1247,9 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.SET_TASKS,
                 bucketId: 1,
                 tasks: [
@@ -1071,13 +1257,16 @@ describe("Async actions", () => {
                         "id": 1,
                         "description": "task 1",
                     }]
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
         const state = {
             user: {},
             bucketlists: [],
-            
+
             searchedBucketLists: [],
             notifications: []
         };
@@ -1097,16 +1286,22 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.SET_TASKS,
                 bucketId: 1,
                 tasks: []
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
         const state = {
             user: {},
             bucketlists: [],
-            
+
             searchedBucketLists: [],
             notifications: []
         };
@@ -1126,8 +1321,14 @@ describe("Async actions", () => {
 
         const expectedActions = [
             {
+                type: C.ENTER_LOADING
+            },
+            {
                 type: C.ADD_NOTIFICATION,
                 notification: "There was a problem getting your tasks"
+            },
+            {
+                type: C.EXIT_LOADING
             }
         ];
 
@@ -1218,6 +1419,20 @@ describe('Synchronous actions', () => {
             type: C.CLEAR_NOTIFICATIONS
         };
         expect(clearNotifications()).toEqual(expectedAction)
+    });
+
+    it('enterLoadingMode should create ENTER_LOADING action', () => {
+        const expectedAction = {
+            type: C.ENTER_LOADING
+        };
+        expect(enterLoadingMode()).toEqual(expectedAction)
+    });
+
+    it('exitLoadingMode should create EXIT_LOADING action', () => {
+        const expectedAction = {
+            type: C.EXIT_LOADING
+        };
+        expect(exitLoadingMode()).toEqual(expectedAction)
     });
 
 });

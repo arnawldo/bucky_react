@@ -22,6 +22,7 @@ import ShowTasks from "../ui/ShowTasks";
 import ShowNavBar from "../ui/ShowNavBar";
 import ShowSearchedBuckets from "../ui/ShowSearchedBuckets";
 import ShowSearchBucketForm from "../ui/ShowSearchBucketForm";
+import ShowLoadingDots from "../ui/ShowLoadingDots";
 
 
 export const LoginPage = connect(
@@ -230,3 +231,10 @@ export const SearchedBucketLists = connect(
             }
         })
 )(ShowSearchedBuckets);
+
+export const LoadingDots = connect(
+    state => ({
+        isLoading: state.isLoading
+    }),
+    null
+)(ShowLoadingDots);

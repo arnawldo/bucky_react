@@ -1,10 +1,10 @@
 import React from "react";
-import Enzyme, {mount, shallow} from "enzyme";
+import Enzyme, {shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import * as sinon from "sinon";
 import {createMockStore} from "redux-test-utils";
 import {
-    BucketLists, BucketName, LoginPage, LogoutPage, NewBucketList, NewTask, Notifications, SearchBucketList,
+    BucketLists, BucketName, LoadingDots, LoginPage, LogoutPage, NewBucketList, NewTask, Notifications,
+    SearchBucketList,
     SearchedBucketLists, Tasks,
     WelcomePage
 } from "../containers";
@@ -20,6 +20,7 @@ import ShowTasks from "../../ui/ShowTasks";
 import ShowLogout from "../../ui/ShowLogout";
 import ShowSearchBucketForm from "../../ui/ShowSearchBucketForm";
 import ShowSearchedBuckets from "../../ui/ShowSearchedBuckets";
+import ShowLoadingDots from "../../ui/ShowLoadingDots";
 
 
 Enzyme.configure({adapter: new Adapter()});
@@ -209,4 +210,15 @@ describe("<SearchedBucketLists />", () => {
         );
         expect(wrapper.dive().dive().find(ShowSearchedBuckets).length).toEqual(1);
     })
+});
+
+describe("<LoadingDots />", () => {
+    it("should render self and sub-components successfully when loading", () => {
+        const testState = {
+            isLoading: true
+        };
+        const store = createMockStore(testState);
+        const wrapper = shallowWithStore(<LoadingDots />, store);
+        expect(wrapper.find(ShowLoadingDots).length).toEqual(1);
+    });
 });

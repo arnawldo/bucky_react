@@ -279,3 +279,15 @@ export const bucketPaginator = (state = {page: 1, hasNextPage: false}, action) =
             return state
     }
 };
+
+// Loading Reducer
+export const isLoading = (state = false, action) => {
+    switch (action.type) {
+        case C.ENTER_LOADING:
+            return true;
+        case C.EXIT_LOADING:
+            return false;
+        default:
+            return state
+    }
+};

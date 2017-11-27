@@ -21,28 +21,36 @@ const BUCKETLISTENDPOINT = SITEURL + "/api/v1.0/bucketlists/";
  * @param {string} username - The username of new user.
  * @param {string} password - The password of new user.
  */
-export const registerUser = (username, password) => dispatch =>
-    axios({
+export const registerUser = (username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "post",
         url: USERENDPOINT,
 
-            data: {
-                username: username,
-                password: password
-            }
-        })
+        data: {
+            username: username,
+            password: password
+        }
+    })
         .then((res => {
             if (res.status === 201) {
                 // user was created
                 // add user details to store
-                return ({
+                dispatch({
                     type: C.ADD_USER,
                     username: username,
                     password: password
-                })
+                });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         }))
-        .then(dispatch)
         .catch((error) => {
             if (error.response.status === 409) {
                 // user already exists
@@ -50,9 +58,14 @@ export const registerUser = (username, password) => dispatch =>
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "This username already exists!"
-                })
+                });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to check if user is authentic as well as fetch bucket-lists.
@@ -62,9 +75,15 @@ export const registerUser = (username, password) => dispatch =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const loginUser = (username, password) => dispatch =>
+export const loginUser = (username, password) => dispatch => {
+
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
     // check that bucket-lists can be accessed
-    axios.get(BUCKETLISTENDPOINT,
+    return axios.get(BUCKETLISTENDPOINT,
         {
             auth: {
                 username: username,
@@ -75,27 +94,38 @@ export const loginUser = (username, password) => dispatch =>
             if (res.status === 200) {
                 // user is authorized
                 // add user to store
-                return ({
+                dispatch({
                     type: C.ADD_USER,
                     username: username,
                     password: password
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         }))
-        .then(dispatch)
         .catch((error) => {
             if (error.response.status === 401) {
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "Incorrect Username or Password"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             } else {
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "A problem occured... Try again."
                 });
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 
 /**
@@ -116,8 +146,13 @@ export const clearNotifications = () =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const addBucketList = (name, username, password) => dispatch =>
-    axios({
+export const addBucketList = (name, username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "post",
         url: BUCKETLISTENDPOINT,
         auth: {
@@ -132,14 +167,17 @@ export const addBucketList = (name, username, password) => dispatch =>
             if (res.status === 201) {
                 // bucket-list was created
                 // add it to store
-                return ({
+                dispatch({
                     type: C.ADD_BUCKETLIST,
                     bucketId: parseInt(res.data.bucketList.id, 10),
                     name: res.data.bucketList.name
-                })
+                });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         })
-        .then(dispatch)
         .catch((error) => {
             if (error.response.status === 409) {
                 // bucket-list already exists
@@ -147,14 +185,23 @@ export const addBucketList = (name, username, password) => dispatch =>
                     type: C.ADD_NOTIFICATION,
                     notification: "Bucket-list \"" + name + "\" already exists"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             } else {
                 // bad request
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "Try again"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to delete a bucket-list.
@@ -165,8 +212,14 @@ export const addBucketList = (name, username, password) => dispatch =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const deleteBucketList = (bucketId, username, password) => dispatch =>
-    axios({
+export const deleteBucketList = (bucketId, username, password) => dispatch => {
+
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "delete",
         url: BUCKETLISTENDPOINT + bucketId,
         auth: {
@@ -178,13 +231,16 @@ export const deleteBucketList = (bucketId, username, password) => dispatch =>
             if (res.status === 200) {
                 // bucket-list was deleted
                 // delete from store
-                return ({
+                dispatch({
                     type: C.DELETE_BUCKETLIST,
                     bucketId: bucketId
-                })
+                });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         })
-        .then(dispatch)
         .catch((error) => {
             if (error.response.status === 404) {
                 // bucket-list does not exist
@@ -192,14 +248,23 @@ export const deleteBucketList = (bucketId, username, password) => dispatch =>
                     type: C.ADD_NOTIFICATION,
                     notification: "Bucket-list no longer exists"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             } else {
                 // other server error
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "Try again"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to edit name of a bucket-list.
@@ -211,8 +276,13 @@ export const deleteBucketList = (bucketId, username, password) => dispatch =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const editBucketList = (bucketId, newName, username, password) => dispatch =>
-    axios({
+export const editBucketList = (bucketId, newName, username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "patch",
         url: BUCKETLISTENDPOINT + bucketId,
         data: {
@@ -232,6 +302,10 @@ export const editBucketList = (bucketId, newName, username, password) => dispatc
                     newName: newName
                 });
                 dispatch(bucketExitEditMode(bucketId));
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
 
             }
         })
@@ -242,14 +316,23 @@ export const editBucketList = (bucketId, newName, username, password) => dispatc
                     type: C.ADD_NOTIFICATION,
                     notification: "Bucket-list no longer exists"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             } else {
                 // other server error
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "Try again"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to fetch 1st page of bucket-lists.
@@ -260,8 +343,13 @@ export const editBucketList = (bucketId, newName, username, password) => dispatc
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const fetchBucketLists = (username, password) => dispatch =>
-    axios({
+export const fetchBucketLists = (username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "get",
         url: BUCKETLISTENDPOINT,
         auth: {
@@ -280,6 +368,10 @@ export const fetchBucketLists = (username, password) => dispatch =>
                     } else {
                         dispatch({type: C.HAS_NEXT_PAGE, hasNextPage: false})
                     }
+                    // remove loading animation
+                    dispatch({
+                        type: C.EXIT_LOADING
+                    });
                 }
             }
         )
@@ -288,7 +380,12 @@ export const fetchBucketLists = (username, password) => dispatch =>
                 type: C.ADD_NOTIFICATION,
                 notification: "There was a problem getting your bucket-lists"
             });
+            // remove loading animation
+            dispatch({
+                type: C.EXIT_LOADING
+            });
         });
+};
 
 /**
  * Make request to fetch a particular page of bucket-lists in the store.
@@ -300,8 +397,13 @@ export const fetchBucketLists = (username, password) => dispatch =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const fetchBucketListsPage = (pageNumber, username, password) => dispatch =>
-    axios({
+export const fetchBucketListsPage = (pageNumber, username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "get",
         url: BUCKETLISTENDPOINT + "?page=" + (pageNumber + 1),
         auth: {
@@ -321,7 +423,11 @@ export const fetchBucketListsPage = (pageNumber, username, password) => dispatch
                         dispatch({type: C.HAS_NEXT_PAGE, hasNextPage: false})
                     }
                     // update current page number
-                    dispatch({type: C.SET_CURRENT_PAGE, currentPage: pageNumber + 1})
+                    dispatch({type: C.SET_CURRENT_PAGE, currentPage: pageNumber + 1});
+                    // remove loading animation
+                    dispatch({
+                        type: C.EXIT_LOADING
+                    });
                 }
             }
         )
@@ -330,7 +436,12 @@ export const fetchBucketListsPage = (pageNumber, username, password) => dispatch
                 type: C.ADD_NOTIFICATION,
                 notification: "There was a problem getting your bucket-lists"
             });
+            // remove loading animation
+            dispatch({
+                type: C.EXIT_LOADING
+            });
         });
+};
 
 /**
  * Reset page counter for bucket-lists
@@ -414,8 +525,14 @@ export const clearBuckets = () =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const fetchTasks = (bucketId, username, password) => dispatch =>
-    axios({
+export const fetchTasks = (bucketId, username, password) => dispatch => {
+
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "get",
         url: BUCKETLISTENDPOINT + bucketId + "/tasks/",
         auth: {
@@ -427,15 +544,18 @@ export const fetchTasks = (bucketId, username, password) => dispatch =>
                 if (res.status === 200) {
                     // tasks received
                     // set in store
-                    return ({
+                    dispatch({
                         type: C.SET_TASKS,
                         bucketId: bucketId,
                         tasks: res.data["tasks"]
-                    })
+                    });
+                    // remove loading animation
+                    dispatch({
+                        type: C.EXIT_LOADING
+                    });
                 }
             }
         )
-        .then(dispatch)
         .catch((error) => {
             if (error.response.status === 404) {
                 dispatch({
@@ -443,13 +563,22 @@ export const fetchTasks = (bucketId, username, password) => dispatch =>
                     bucketId: bucketId,
                     tasks: []
                 });
+                // show loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             } else {
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "There was a problem getting your tasks"
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to delete task for a bucket-list in the store.
@@ -461,8 +590,13 @@ export const fetchTasks = (bucketId, username, password) => dispatch =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const deleteTask = (bucketId, taskId, username, password) => dispatch =>
-    axios({
+export const deleteTask = (bucketId, taskId, username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "delete",
         url: BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
         auth: {
@@ -472,16 +606,19 @@ export const deleteTask = (bucketId, taskId, username, password) => dispatch =>
     })
         .then((res) => {
             if (res.status === 200) {
-                return ({
+                dispatch({
                     // task was deleted
                     // remove task from store
                     type: C.DELETE_TASK,
                     taskId: taskId,
                     bucketId: bucketId
-                })
+                });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         })
-        .then(dispatch)
         .catch((error) => {
             if (error.response.status === 404) {
                 dispatch({
@@ -493,8 +630,13 @@ export const deleteTask = (bucketId, taskId, username, password) => dispatch =>
                     type: C.ADD_NOTIFICATION,
                     notification: "There was a problem getting your tasks."
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to edit description of task.
@@ -507,8 +649,13 @@ export const deleteTask = (bucketId, taskId, username, password) => dispatch =>
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const editTask = (bucketId, taskId, newDescription, username, password) => dispatch =>
-    axios({
+export const editTask = (bucketId, taskId, newDescription, username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "patch",
         url: BUCKETLISTENDPOINT + bucketId + /tasks/ + taskId,
         auth: {
@@ -530,6 +677,10 @@ export const editTask = (bucketId, taskId, newDescription, username, password) =
                     newDescription: newDescription
                 });
                 dispatch(taskExitEditMode(bucketId, taskId));
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         })
         .catch((error) => {
@@ -538,13 +689,22 @@ export const editTask = (bucketId, taskId, newDescription, username, password) =
                     type: C.ADD_NOTIFICATION,
                     notification: "Task does not exist anymore!"
                 });
+                // show loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             } else {
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "There was a problem getting your tasks."
                 });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to create a new task.
@@ -556,8 +716,13 @@ export const editTask = (bucketId, taskId, newDescription, username, password) =
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const addTask = (bucketId, description, username, password) => dispatch =>
-    axios({
+export const addTask = (bucketId, description, username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "post",
         url: BUCKETLISTENDPOINT + bucketId + /tasks/,
         auth: {
@@ -570,17 +735,20 @@ export const addTask = (bucketId, description, username, password) => dispatch =
     })
         .then((res) => {
             if (res.status === 201) {
-                return ({
+                dispatch({
                     // task was created
                     // add it to store
                     type: C.ADD_TASK,
                     taskId: res.data.task.id,
                     bucketId: bucketId,
                     description: description
-                })
+                });
+                // remove loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         })
-        .then(dispatch)
         .catch((error) => {
             if (error.response.status === 409) {
                 // task already exists
@@ -588,14 +756,23 @@ export const addTask = (bucketId, description, username, password) => dispatch =
                     type: C.ADD_NOTIFICATION,
                     notification: "Task \"" + description + "\" already exists."
                 });
+                // show loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             } else {
                 // other server error
                 dispatch({
                     type: C.ADD_NOTIFICATION,
                     notification: "Try again."
                 });
+                // show loading animation
+                dispatch({
+                    type: C.EXIT_LOADING
+                });
             }
         });
+};
 
 /**
  * Make request to search for bucket-lists matching a search term.
@@ -606,10 +783,15 @@ export const addTask = (bucketId, description, username, password) => dispatch =
  * @param {string} username - The username of user.
  * @param {string} password - The password of user.
  */
-export const fetchSearchedBucketLists = (searchTerm, username, password) => dispatch =>
-    axios({
+export const fetchSearchedBucketLists = (searchTerm, username, password) => dispatch => {
+    // show loading animation
+    dispatch({
+        type: C.ENTER_LOADING
+    });
+
+    return axios({
         method: "get",
-        url:  BUCKETLISTENDPOINT + "search/" + searchTerm,
+        url: BUCKETLISTENDPOINT + "search/" + searchTerm,
         auth: {
             username: username,
             password: password
@@ -619,20 +801,28 @@ export const fetchSearchedBucketLists = (searchTerm, username, password) => disp
                 if (res.status === 200) {
                     // matched bucket-lists received
                     // add them to store
-                    return ({
+                    dispatch({
                         type: C.ADD_SEARCHED_BUCKETLISTS,
                         bucketlists: res.data["bucket-lists"]
-                    })
+                    });
+                    // remove loading animation
+                    dispatch({
+                        type: C.EXIT_LOADING
+                    });
                 }
             }
         )
-        .then(dispatch)
         .catch(() => {
-                dispatch({
-                    type: C.ADD_NOTIFICATION,
-                    notification: "Try again."
-                });
+            dispatch({
+                type: C.ADD_NOTIFICATION,
+                notification: "Try again."
+            });
+            // show loading animation
+            dispatch({
+                type: C.EXIT_LOADING
+            });
         });
+};
 
 /**
  * Clear searched bucket-lists from store
@@ -640,4 +830,20 @@ export const fetchSearchedBucketLists = (searchTerm, username, password) => disp
 export const clearSearchedBuckets = () =>
     ({
         type: C.DELETE_ALL_SEARCHED_BUCKETLISTS
+    });
+
+/**
+ * Enter loading mode
+ */
+export const enterLoadingMode = () =>
+    ({
+        type: C.ENTER_LOADING
+    });
+
+/**
+ * Exit loading mode
+ */
+export const exitLoadingMode = () =>
+    ({
+        type: C.EXIT_LOADING
     });

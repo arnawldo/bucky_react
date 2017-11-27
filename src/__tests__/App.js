@@ -19,7 +19,8 @@ describe("<App />", () => {
         user: {},
         bucketlists: [],
         searchedBucketLists: [],
-        notifications: ["a notification"]
+        notifications: ["a notification"],
+        isLoading: true
     };
 
     const store = createMockStore(loggedOutState);
@@ -67,7 +68,8 @@ describe('<App /> Logged IN User', () => {
         user: {username: "user", password: "test"},
         bucketlists: [{id: 1, name: "buck", tasks: [{id: 1, description: "task", editMode: false}], editMode: false}],
         searchedBucketLists: [{id: 1, name: "buck", tasks: [], editMode: false}],
-        notifications: []
+        notifications: [],
+        isLoading: true
     };
 
     const store = createMockStore(testState);
@@ -99,7 +101,7 @@ describe('<App /> Logged IN User', () => {
 
     it('renders self and components', () => {
         expect(wrapperTasks.find('section.main-container').length).toEqual(1);
-        expect(wrapperTasks.find('h1').text()).toBe('buck');
+        expect(wrapperTasks.find('.page-header h1').text()).toBe('buck');
         expect(wrapperTasks.find('#newTaskForm').length).toEqual(1);
         expect(wrapperTasks.find('#list-of-tasks').length).toEqual(1);
 
@@ -115,7 +117,7 @@ describe('<App /> Logged IN User', () => {
 
     it('renders self and components', () => {
         expect(wrapperSearch.find('section.main-container').length).toEqual(1);
-        expect(wrapperSearch.find('h1').text()).toBe('Search');
+        expect(wrapperSearch.find('.page-header h1').text()).toBe('Search');
         expect(wrapperSearch.find('#newBucketForm').length).toEqual(1);
         expect(wrapperSearch.find('#list-of-buckets').length).toEqual(1);
 

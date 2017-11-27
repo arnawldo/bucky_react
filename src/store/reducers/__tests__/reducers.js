@@ -1,6 +1,6 @@
 import {
-    bucketlist, bucketlists, bucketPaginator, notifications, isRegistered, searchedBucketLists, task, tasks,
-    user
+    bucketlist, bucketlists, bucketPaginator, notifications, searchedBucketLists, task, tasks,
+    user, isLoading
 } from "../reducers";
 
 describe("User Reducer", () => {
@@ -654,5 +654,38 @@ describe("Bucket Paginator Reducer", () => {
         const result = bucketPaginator(state, action);
         expect(result)
             .toEqual({page: 4, hasNextPage: false})
+    });
+});
+
+describe("Loading Reducer", () => {
+
+    it("ENTER_LOADING dispatched successfully", () => {
+        const state = false;
+        const action = {
+            type: "ENTER_LOADING"
+        };
+        const result = isLoading(state, action);
+        expect(result)
+            .toEqual(true)
+    });
+
+    it("EXIT_LOADING dispatched successfully", () => {
+        const state = true;
+        const action = {
+            type: "EXIT_LOADING"
+        };
+        const result = isLoading(state, action);
+        expect(result)
+            .toEqual(false)
+    });
+
+    it("Unknown action does not change state", () => {
+        const state = false;
+        const action = {
+            type: "unknown action"
+        };
+        const result = isLoading(state, action);
+        expect(result)
+            .toEqual(false)
     });
 });

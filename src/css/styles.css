@@ -81,7 +81,7 @@ CONTENT IS PLACED HERE
     height: 50px;
     padding-left: 1em;
     padding-top: 10px;
-    transition: background-color 0.5s;
+    transition: background-color 0.1s;
 }
 
 #list-of-buckets a,  #list-of-tasks a{
@@ -93,24 +93,17 @@ CONTENT IS PLACED HERE
 
 /* LIST HOVER PROPERTIES */
 
-#list-of-buckets li:hover, #list-of-tasks li:hover {
-    background-color: black;
-}
-
-#list-of-buckets a:link, #list-of-tasks a:link {
-    color: black;
-    text-decoration: none;
-}
-
 #list-of-buckets a:visited, #list-of-tasks a:visited {
     color: black;
     text-decoration: none;
 }
 
-#list-of-buckets a:hover, #list-of-tasks a:hover {
+#list-of-buckets li:hover a, #list-of-buckets li:hover, #list-of-tasks li:hover a, #list-of-tasks li:hover   {
     color: white;
     text-decoration: none;
+    background: black;
 }
+
 
 /*STYLE FORMS*/
 #loginForm, #registerForm {
@@ -244,13 +237,9 @@ CONTENT IS PLACED HERE
 .deleteButton {
     float: right;
     border-radius: 40%;
-    background: rgba(0,0,0,0);
+    background: white;
+    color: black;
     border-color: black;
     height: 40px;
     width: 40px;
-}
-
-
-.deleteButton:hover {
-    background: white;
 }

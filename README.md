@@ -4,3 +4,5 @@
 
 # Bucky
 ## Your number one bucket-list app
+
+Check out live app [here](https://bucky-react.herokuapp.com)

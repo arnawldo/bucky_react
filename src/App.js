@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    BucketLists, BucketName, LoginPage, LogoutPage, NavBar, NewBucketList, NewTask, Notifications, RegisterPage,
+    BucketLists, BucketName, LoadingDots, LoginPage, LogoutPage, NavBar, NewBucketList, NewTask, Notifications,
+    RegisterPage,
     SearchBucketList, SearchedBucketLists, Tasks,
     WelcomePage
 } from "./components/containers/containers";
@@ -10,6 +11,7 @@ import NotFound from "./components/ui/ShowNotFound";
 
 const App = () =>
     <div className="main-container container">
+        <LoadingDots />
         <NavBar/>
         <section className="row main-container">
             <aside className="hidden-xs col-sm-2 col-md-3"></aside>

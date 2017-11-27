@@ -1,6 +1,6 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk';
-import {bucketlists, user, searchedBucketLists, notifications, bucketPaginator} from "./reducers/reducers";
+import {bucketlists, user, searchedBucketLists, notifications, bucketPaginator, isLoading} from "./reducers/reducers";
 
 // Middle-ware for logging actions that are dispatched
 const logger = store => next => action => {
@@ -21,7 +21,16 @@ const logger = store => next => action => {
 // Middle-ware for saving current state in browser storage
 const saver = store => next => action => {
     let result = next(action);
-    localStorage['redux-store'] = JSON.stringify(store.getState());
+    let currentState = store.getState();
+    let stateToSave = {
+        bucketlists: [...currentState.bucketlists],
+        user: {...currentState.user},
+        searchedBucketLists: [],
+        notifications: [],
+        bucketPaginator: {...currentState.bucketPaginator},
+        isLoading: false
+    };
+    localStorage['redux-store'] = JSON.stringify(stateToSave);
     return result
 };
 
@@ -29,7 +38,7 @@ const saver = store => next => action => {
 
 const storeFactory = (initialState = {}) =>
     applyMiddleware(logger, saver, thunk)(createStore)(
-        combineReducers({ bucketlists, user, searchedBucketLists, notifications, bucketPaginator}),
+        combineReducers({ bucketlists, user, searchedBucketLists, notifications, bucketPaginator, isLoading}),
         (localStorage['redux-store']) ?
             JSON.parse(localStorage['redux-store']) :
             initialState,
